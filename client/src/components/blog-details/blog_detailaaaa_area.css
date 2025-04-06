@@ -1,0 +1,23 @@
+.search-control:focus{
+    border-color: #00a3b1 !important;
+}
+
+.category-widget li::before{
+    background-color: #00a3b1 !important;
+}
+
+.post-nav.pnavigation a:hover{
+background-color: #00a3b1 !important;
+}
+
+.creplay{
+    background-color: #00a3b1 !important;
+}
+
+#submit{
+    background-color: #00a3b1 !important;
+}
+
+#submit:focus{
+    border-color: #00a3b1 !important;
+}

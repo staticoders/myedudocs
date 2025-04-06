@@ -1,0 +1,19 @@
+.footer-sec{
+    background: #00a3b1;
+    
+}
+
+
+
+.input-subscribe{
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+}
+
+.btn-subscribe {
+    height: 63px;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+}
+
+footer{
+    font-family: Urbanist, sans-serif;
+}
