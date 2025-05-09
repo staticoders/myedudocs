@@ -43,7 +43,7 @@ const Sidebar = () => {
               <ul className="side-nav">
                 {/* <li className="side-nav-title">Navigation</li> */}
                 <li className="side-nav-item">
-                  <a data-bs-toggle="collapse" href="#" aria-expanded="false" aria-controls="sidebarDashboards" className="side-nav-link">
+                  <a data-bs-toggle="collapse" href="/admin-dashboard" aria-expanded="false" aria-controls="sidebarDashboards" className="side-nav-link">
                     <i className="fa-solid fa-house-user"></i>
 
                     <span> Dashboard Overview </span>
@@ -90,9 +90,7 @@ const Sidebar = () => {
                       <li>
                         <a href="/add-courses">➕ Add Courses</a>
                       </li>
-                      <li>
-                        <a href="/assign-teachers">📝 Assign Teachers to Courses</a>
-                      </li>
+
                       <li>
                         <a href="/review-course-content">📖 Review Course Content</a>
                       </li>
@@ -109,6 +107,12 @@ const Sidebar = () => {
                     <ul className="side-nav-second-level">
                       <li>
                         <a href="/create-exams">📝 Create & Schedule Exams</a>
+                      </li>
+                      <li>
+                        <a href="/create-exams">📝 Create Exams Category</a>
+                      </li>
+                      <li>
+                        <a href="/create-exams">📚 Manage All Exams</a>
                       </li>
                       <li>
                         <a href="/students-reports">📊 Exam Reports </a>
@@ -251,13 +255,19 @@ const Sidebar = () => {
                         <a href="/uploads-dpps">📤 Upload Dpps</a>
                       </li>
                       <li>
-                        <a href="/manage-ebooks">📚 Manage All Ebooks</a>
+                        <a href="/uploads-dpps">📤 Upload Complementary Test Series</a>
+                      </li>
+                      <li>
+                        <a href="/manage-ebooks">📄 Manage All Ebooks</a>
                       </li>
                       <li>
                         <a href="/manage-pdfs">📄 Manage All Pdfs</a>
                       </li>
                       <li>
                         <a href="/manage-dpps">📄 Manage All Dpps</a>
+                      </li>
+                      <li>
+                        <a href="/uploads-dpps">📄 Manage Test Series</a>
                       </li>
                     </ul>
                   </div>

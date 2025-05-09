@@ -10,102 +10,66 @@ import Topbar from './Topbar';
 const AddCourse = () => {
 
 
-    // const Navigate = useNavigate();
+
+    interface Teacher {
+        tname: string;
+    }
+
+    const [teachersName, SetTeachersName] = useState<Teacher[]>([])
+
+    useEffect(() => {
+        fetch("http://localhost:8080/api/v1/allteachersName") // Update with your backend URL
+            .then((response) => response.json())
+            .then((data) => {
+                SetTeachersName(data.teachers);
+                // setLoading(false);
+            })
+            .catch((error) => {
+                console.error("Error fetching teachers:", error);
+                // setLoading(false);
+            });
+    }
+        , [])
+
+    console.log(teachersName);
 
 
-    // // Get user from local storage
-    // interface User {
-    //     name?: string;
-    //     aname?: string;
-    //     tname?: string;
-    // }
-
-    // const [loginUser, setLoginuser] = useState<User>({})
-    // useEffect(() => {
-    //     const user = localStorage.getItem('edudocs') ? JSON.parse(localStorage.getItem('edudocs') as string) : null
-    //     if (user) {
-    //         setLoginuser(user)
-    //     }
-    // }, [])
-
-
-    // // Logout
-
-    // const logoutHandler = () => {
-    //     localStorage.removeItem('edudocs')
-    //     message.success("Logged out successfully", 7)
-    //     Navigate('/admin-login')
-    // }
-
-
-    // // preventing admin to access dashboard if they are not looged in 
-    // useEffect(() => {
-    //     if (!localStorage.getItem('edudocs')) {
-    //         message.warning("You are not already logged in ! First Log in to your account", 7)
-    //         Navigate('/admin-login')
-    //     }
-    // }, [Navigate])
+    // add course function
 
 
 
-
-    // Datagrid
-    const columns = [
-        { field: "_id", headerName: "ID", width: 200 },
-        { field: "tname", headerName: "Name", width: 200 },
-        { field: "temail", headerName: "Email", width: 200 },
-        { field: "tphn", headerName: "Phone", width: 200 },
-        { field: "tspecialization", headerName: "Specialization", width: 200 },
-        { field: "texp", headerName: "Experience(In Years)", width: 200 },
-        { field: "Status", headerName: "Status", width: 200 },
-        {
-            field: "actions",
-            headerName: "Actions",
-            width: 300,
-            renderCell: (params: any) => (
-                <Stack direction="row" spacing={1}>
-                    <a className='btn btn-primary' href={`/teacherProfile/${params.row._id}`} style={{ textDecoration: 'none', color: 'primary' }}>View</a>
-                    {/* <Button variant="contained" color="secondary" size="small" >Edit</Button> */}
-                    <Button onClick={
-                        async () => {
-                            try {
-                                const response = await axios.delete(`http://localhost:8080/api/v1/deleteTeacher/${params.row._id}`);
-                                // console.log(response.data); // Handle success response
-                                message.success("Teacher Deleted Successfully", 4)
-                                // window.location.reload()
-                                setTimeout(() => {
-                                    window.location.reload(); // Reloads the current page
-                                }, 4000);
-                            } catch (error) {
-                                console.error(error); // Handle error response
-                                message.error("Error Deleting Teacher", 4)
-                            }
-                        }
-                    } variant="contained" color="error" size="small" >Delete</Button>
-                    <Button onClick={
-                        async () => {
-                            try {
-                                const response = await axios.put(`http://localhost:8080/api/v1/updateTeacherStatus/${params.row._id}`);
-                                //console.log(response.data); // Handle success response
-                                message.success("Teacher Approved Successfully ! He Is Now Verified", 4)
-                                setTimeout(() => {
-                                    window.location.reload(); // Reloads the current page
-                                }, 4000);
-                                // window.location.reload()
-                            } catch (error) {
-                                console.error(error); // Handle error response
-                                message.error("Error Approving Teacher", 4)
-                            }
-                        }
-                    } variant="contained" color="success" size="small" >Approve</Button>
-                </Stack>
-            ),
-        },
-
-    ];
+    const addCourse = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const formData = new FormData(e.currentTarget);
 
 
+        try {
+            await axios.post('http://localhost:8080/api/v1/course/addCourse', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            message.success("Course Added Successfully")
+            setInterval(() => {
+                window.location.href = "/manage-courses"
+            }
+                , 2000)
 
+        } catch (error) {
+            message.error("Error Encountered !! Course Not Added")
+            console.log(error);
+        }
+    }
+
+
+    // Get user from local storage
+    const [loginUser, setLoginuser] = useState<{ name?: string, tname?: string, aname?: string }>({})
+    useEffect(() => {
+        const user = localStorage.getItem('edudocs') ? JSON.parse(localStorage.getItem('edudocs') as string) : null
+        if (user) {
+            setLoginuser(user)
+        }
+    }, [])
 
 
     return (
@@ -128,12 +92,20 @@ const AddCourse = () => {
                             {/* Start Content*/}
                             <div className="container-fluid">
                                 <div className="row">
-                                    <div className="col-12">
+                                    <div className="col-10">
                                         <div className="page-title-box">
                                             <div className="page-title-right">
 
                                             </div>
+                                            <h4 className="page-title">Dashboard/Add Course</h4>
+                                        </div>
+                                    </div>
+                                    <div className="col-2">
+                                        <div className="page-title-box">
+                                            <div className="page-title-right">
 
+                                            </div>
+                                            <a href='/manage-courses' className="btn btn-outline-warning mt-3">Manage Course</a>
                                         </div>
                                     </div>
                                 </div>
@@ -145,57 +117,97 @@ const AddCourse = () => {
                         </div>
                         <div className="container">
                             <div className="row">
-                                <div className="col-md-12">
-                                    {/* <form >
+                                <div className="col-md-12 p-5">
+                                    <form onSubmit={addCourse} encType="multipart/form-data" className="bg-light p-5 shadow-sm rounded">
                                         <div className="form-group">
-                                            <label htmlFor="fullname">Full Name</label>
-                                            <input type="text" placeholder="Enter Full Name" id="fullname" className=" form-control" name="tname" required={true} />
+                                            <label htmlFor="cname">Course Name</label>
+                                            <input type="text" placeholder="Enter Course Name" id="cname" className=" form-control" name="cname" required={true} />
                                         </div>
                                         <div className="form-group">
-                                            <label htmlFor="email-address">Email Address</label>
-                                            <input type="email" placeholder="Enter Email Address" id="email-address" className="form-control " name="temail" required={true} />
+                                            <label htmlFor="email-address">Course Instructor</label>
+
+                                            {"aname" in loginUser ? (
+                                                <select className="form-select" aria-label="Default select example" name="cinstructor">
+                                                    {teachersName.map((teacher) => (
+                                                        <option key={teacher.tname} value={teacher.tname}>{teacher.tname}</option>
+                                                    ))}
+                                                    <option key={"Admin"} value={"Admin"}>Admin</option>
+                                                </select>
+                                            ) : (
+                                                <select className="form-select" aria-label="Default select example" name="cinstructor">
+                                                    <option key={loginUser.tname} value={loginUser.tname}>{loginUser.tname}</option>
+                                                </select>
+                                            )}
+
+                                        </div>
+                                        <br />
+                                        <div className="form-group">
+                                            <label htmlFor="cdur">Duration Of The Course</label>
+                                            <input type="number" placeholder="Enter Duration Of The Course" id="cdur" className="form-control" name="cdur" required={true} />
                                         </div>
                                         <div className="form-group">
-                                            <label htmlFor="phn">Phone</label>
-                                            <input type="number" placeholder="Enter Phone number" id="phn" className="form-control" name="tphn" required={true} />
-                                        </div>
-                                        <div className="form-group">
-                                            <label htmlFor="cpwd">Password</label>
-                                            <input type="password" placeholder="Enter Password" id="cpwd" className="form-control" name="tpassword" max={10} min={10} required={true} />
+                                            <label htmlFor="clesson">Total Lessons</label>
+                                            <input type="number" placeholder="Enter Total Lessons Of The Course" id="clesson" className="form-control" name="clesson" required={true} />
                                         </div>
 
                                         <div className="form-group">
-                                            <label htmlFor="tspecialization">Your Specialization</label>
-                                            <select className="form-select" aria-label="Default select example" name="tspecialization">
-                                                <option value="Maths">Maths</option>
-                                                <option value="English">English</option>
-                                                <option value="Hindi">Hindi</option>
-                                                <option value="Reasoning">Reasoning</option>
-                                                <option value="Apptitude">Apptitude</option>
-                                                <option value="GS">General Science</option>
-                                                <option value="History">History</option>
-                                                <option value="Geography">Geography</option>
-                                                <option value="Political">Political Science</option>
-                                                <option value="Accounts">Accounts</option>
-                                                <option value="Statistics">Statistics</option>
-                                                <option value="chemistry">chemistry</option>
-                                                <option value="Physics">Physics</option>
-                                                <option value="Biology">Biology</option>
-                                                <option value="Computer">Computer</option>
-                                                <option value="Bengali">Bengali</option>
-
+                                            <label htmlFor="cskill_level">Required Skill Level</label>
+                                            <select className="form-select" aria-label="Default select example" name="cskill_level">
+                                                <option value="High">High</option>
+                                                <option value="Low">Low</option>
+                                                <option value="Intermidiate">Intermidiate</option>
                                             </select>
                                         </div>
+                                        <br />
+                                        <div className="form-group">
+                                            <label htmlFor="clanguage">Language Of The Course</label>
+                                            <select className="form-select" aria-label="Default select example" name="clanguage">
+                                                <option value="English">English</option>
+                                                <option value="Hindi">Hindi</option>
+                                            </select>
+                                        </div>
+                                        <br />
+                                        <div className="form-group">
+                                            <label htmlFor="c_category">Category Of The Course</label>
+                                            <select className="form-select" aria-label="Default select example" name="c_category">
+                                                <option value="English">Science</option>
+                                                <option value="Arts">Arts</option>
+                                                <option value="Apptitude">Apptitude</option>
+                                                <option value="Reasoing">Reasoing</option>
+                                                <option value="English">English</option>
+                                                <option value="Quant">Quant</option>
+                                                <option value="General Knowledge">General Knowledge</option>
+                                                <option value="Current Affairs">Current Affairs</option>
+                                            </select>
+                                        </div>
+                                        <br />
+                                        <div className="form-group">
+                                            <label htmlFor="cprice">Price Of The Course</label>
+                                            <input type="number" placeholder="Enter Price Of The Course" id="cprice" className="form-control" name="cprice" required={true} />
+                                        </div>
 
                                         <div className="form-group">
-                                            <label htmlFor="texp">Your Total Experience(in Years)</label>
-                                            <input type="number" placeholder="Enter Your Total Experience" id="texp" className="form-control" name="texp" required={true} />
+                                            <label htmlFor="cimage">Course Image</label>
+                                            <input type="file" id="cimage" className="form-control" name="cimage" required={true} />
                                         </div>
 
-                                        <div className="form-group col-lg-12">
-                                            <button className="bg_btn bt" type="submit" name="submit">Signup now</button>
+                                        <div className="form-group">
+                                            <label htmlFor="cvdolink">Course Video Link</label>
+                                            <input type="text" id="cvdolink" className="form-control" name="cvdolink" required={true} />
                                         </div>
-                                    </form> */}
+
+
+                                        <div className="form-group">
+                                            <label htmlFor="cdesc">Course Description</label>
+                                            <textarea id="cdesc" className="form-control" name="cdesc" rows={5} required={true} />
+                                        </div>
+
+
+
+                                        <div className="form-group col-lg-12">
+                                            <button className="bg_btn bt" type="submit" name="submit">Add Now</button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>

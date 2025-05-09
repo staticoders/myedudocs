@@ -6,7 +6,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { Button, Stack } from "@mui/material";
 import Sidebar from './Sidebar';
 import Topbar from './Topbar';
-
+import Sidebar2 from './Sidebar2';
 const ManageStudents = () => {
 
 
@@ -147,7 +147,7 @@ const ManageStudents = () => {
                     <Topbar />
                     {/* ========== Topbar End ========== */}
                     {/* ========== Left Sidebar Start ========== */}
-                     <Sidebar/>
+                     {"aname" in loginUser ? <Sidebar /> : <Sidebar2 />}
                     {/* ========== Left Sidebar End ========== */}
                     {/* ============================================================== */}
                     {/* Start Page Content Here */}

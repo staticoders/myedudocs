@@ -27,7 +27,11 @@ import ManageStudentIndex from "./components/DASHBOARD/ManageStudentIndex";
 import StudentProfileIndex from "./components/DASHBOARD/StudentProfileIndex";
 import TeacherProfileIndex from "./components/DASHBOARD/TeacherProfileIndex";
 import AddCourseIndex from "./components/DASHBOARD/AddCourseIndex";
-
+import ManageCoursesIndex from "./components/DASHBOARD/ManageCoursesIndex";
+import SpecificCourseDetails from "./components/DASHBOARD/SpecificCourseDetailsIndex";
+import UpdateCourseIndex from "./components/DASHBOARD/UpdateCoursesIndex";
+import TeacherOwnProfileIndex from "./components/DASHBOARD/TeacherOwnProfileIndex";
+import EditTeacherProfileIndex from "./components/DASHBOARD/EditTeacherProfileIndex";
 
 const router = createBrowserRouter([
   { path: "/", element: <HomeOne /> },
@@ -38,10 +42,15 @@ const router = createBrowserRouter([
   { path: "/manage-students", element: <ManageStudentIndex /> },
   { path: "/userProfile/:id", element: <StudentProfileIndex /> },
   { path: "/teacherProfile/:id", element: <TeacherProfileIndex /> },
+  { path: "/teacher-dashboard/teacher/MyProfile/:id", element: <TeacherOwnProfileIndex /> },
   { path: "/add-courses", element: <AddCourseIndex /> },
+  { path: "/manage-courses", element: <ManageCoursesIndex /> },
   { path: "/about", element: <About /> },
   { path: "/courses", element: <Courses /> },
-  { path: "/course-details", element: <CourseDetails /> },
+  { path: "/course-details/:id", element: <CourseDetails /> },
+  { path: "/teacher/edit-my-profile/:id", element: <EditTeacherProfileIndex /> },
+  // { path: "/CourseDetails/:id", element: < SpecificCourseDetails /> },
+  { path: "/updateCourse/:id", element: <UpdateCourseIndex /> },
   { path: "/grid-blog", element: <GridBlog /> },
   { path: "/standard-blog", element: <StandardBlog /> },
   { path: "/blog-details", element: <BlogDetails /> },

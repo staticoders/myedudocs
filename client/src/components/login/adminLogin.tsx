@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import React, { useEffect } from 'react';
-import { message } from 'antd';
+import { message,Form } from 'antd';
 import axios from "axios";
 
 
@@ -65,6 +65,14 @@ export default function AdminLoginForm() {
                     <button className="bg_btn bt" type="submit" name="submit">login</button>
                   </div>
                 </form>
+                <Form>
+                  <Form.Item name="remember" valuePropName="checked" noStyle>
+                    <div className="form-group col-lg-12">
+                      <input type="checkbox" id="remember" name="remember" /> Remember Me
+                      <label htmlFor="remember"> </label>
+                    </div>
+                  </Form.Item>
+                </Form>
                 {/* <p>Dont have an account? <Link to="/admin-register">Register Now</Link></p> */}
               </div>
             </div>

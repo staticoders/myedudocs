@@ -12,7 +12,7 @@ const TeacherSchema = new mongoose.Schema({
         required: [true, 'Please provide an email'],
         unique: true
     },
-    tphn:{
+    tphn: {
         type: Number,
         required: [true, 'Please provide a phone number'],
         unique: true
@@ -25,13 +25,25 @@ const TeacherSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please provide a Specialization']
     },
-    texp: { 
+    texp: {
         type: Number,
         required: [true, 'Please provide a Experience']
     },
-    Status:{
-        type:String,
-        default:'Not Verified',
+    tcity: {
+        type: String,
+        required: [true, 'Please provide a City']
+    },
+    Status: {
+        type: String,
+        default: 'Not Verified',
+    },
+    tprofile: {
+        type: String,
+        required:[true, 'Please provide a City']
+    },
+    tdesc: {
+        type: String,
+        required:[true, 'Please provide a City']
     }
 },
     { timestamps: true }

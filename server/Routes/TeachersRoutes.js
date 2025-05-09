@@ -1,5 +1,5 @@
 const express = require('express');
-const { teacherloginController, teacherregisterController } = require('../Controllers/TeachersCtrl');
+const { teacherloginController, teacherregisterController,upload  } = require('../Controllers/TeachersCtrl');
 
 
 const router = express.Router();
@@ -11,7 +11,7 @@ const router = express.Router();
 //POST || login
 router.post('/teacherLogin', teacherloginController);
 //POST || register
-router.post('/teacherRegister', teacherregisterController);
+router.post('/teacherRegister',upload, teacherregisterController);
 
 
 

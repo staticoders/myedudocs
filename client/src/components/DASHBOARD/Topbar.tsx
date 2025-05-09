@@ -3,8 +3,7 @@ import  { useEffect, useState } from 'react';
 import { message } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
-import { Button, Stack } from "@mui/material";
-import Sidebar from './Sidebar';
+
 const Topbar = () => {
 
 
@@ -16,6 +15,7 @@ const Topbar = () => {
         name?: string;
         aname?: string;
         tname?: string;
+        id?: string;
     }
 
     const [loginUser, setLoginuser] = useState<User>({})
@@ -44,6 +44,17 @@ const Topbar = () => {
         }
     }, [Navigate])
 
+
+    let link = "";
+
+    if ("aname" in loginUser) {
+      link = `/admin-dashboard/admin/MyProfile/${loginUser.id}`
+    }
+    if("tname" in loginUser){
+        link = `/teacher-dashboard/teacher/MyProfile/${loginUser.id}`
+    }
+
+console.log(loginUser.id);
 
     return (
         <div>
@@ -174,7 +185,7 @@ const Topbar = () => {
                                         {/* item*/}
                                         <a href="javascript:void(0);" className="dropdown-item">
                                             <i className="fa-solid fa-user"></i> &nbsp;
-                                            <span>My Account</span>
+                                            <a href={link}>My Account</a>
                                         </a>
                                         {/* item*/}
                                         <a href="javascript:void(0);" className="dropdown-item">

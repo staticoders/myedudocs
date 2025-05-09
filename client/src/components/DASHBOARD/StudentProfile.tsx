@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { message } from 'antd'
 import { useNavigate } from 'react-router-dom'
-
 import { useParams } from 'react-router-dom';
 import Topbar from './Topbar';
 import Sidebar from './Sidebar';
+import Sidebar2 from './Sidebar2';
 
 const StudentProfile = () => {
 
@@ -69,7 +69,9 @@ const StudentProfile = () => {
       });
   }, []);
 
-  console.log(user);
+
+
+
 
   return (
     <>
@@ -78,12 +80,12 @@ const StudentProfile = () => {
         {/* Begin page */}
         <div className="wrapper">
           {/* ========== Topbar Start ========== */}
-          <div className="navbar-custom">
+         
            <Topbar />
-          </div>
+         
           {/* ========== Topbar End ========== */}
           {/* ========== Left Sidebar Start ========== */}
-         <Sidebar />
+          {"aname" in loginUser ? <Sidebar /> : <Sidebar2 />}
           {/* ========== Left Sidebar End ========== */}
           {/* ============================================================== */}
           {/* Start Page Content Here */}

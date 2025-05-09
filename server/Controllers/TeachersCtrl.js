@@ -1,44 +1,48 @@
 const TeacherModel = require('../Models/TeacherModel');
 const colors = require('colors');
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken"); 
+const jwt = require("jsonwebtoken");
+const multer = require("multer");
+const path = require("path");
+
+// Multer setup directly inside controller file
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, "C:/Users/rickb/OneDrive/Desktop/EDUDOCS/client/public/uploads");
+    },
+    filename: (req, file, cb) => {
+        const safeName = path.basename(file.originalname); // Ensures only the filename
+        cb(null, safeName);
+    }
+});
+
+const upload = multer({ storage });
+
 // Login Controller
 const teacherloginController = async (req, res) => {
-    // try {
-    //     const { temail, tpassword } = req.body;
-    //     const teacher = await TeacherModel.findOne({ temail: temail, tpassword: tpassword });
-    //     if (!teacher) {
-    //        return res.status(404).send({ message: "Login Unsuccessfull"});
-    //     }
-    //     res.status(200).json({ message: "Login Successfull", teacher: teacher });
-    // }
-    // catch (err) {
-    //     res.status(400).json({ message: "Error Occured" });
-    // }
-
 
     try {
         const { temail, tpassword } = req.body;
-    
+
         // Find the teacher by email
         const teacher = await TeacherModel.findOne({ temail });
         if (!teacher) {
             return res.status(404).json({ message: "Teacher not found" });
         }
-    
+
         // Compare the provided password with the hashed password
         const isMatch = await bcrypt.compare(tpassword, teacher.tpassword);
         if (!isMatch) {
             return res.status(401).json({ message: "Invalid credentials" });
         }
-    
+
         // Generate JWT token
         const token = jwt.sign(
             { teacherId: teacher._id, temail: teacher.temail },
             "your-secret-key",
             { expiresIn: "1h" }
         );
-    
+
         // Return teacher data (excluding password)
         res.status(200).json({
             message: "Login Successful",
@@ -49,6 +53,7 @@ const teacherloginController = async (req, res) => {
                 tphn: teacher.tphn,
                 tspecialization: teacher.tspecialization,
                 texp: teacher.texp,
+                tcity: teacher.tcity,
                 token: token
             }
         });
@@ -59,47 +64,43 @@ const teacherloginController = async (req, res) => {
 
 // Register Controller
 const teacherregisterController = async (req, res) => {
-    // try {
-    //     const newTeacher = new TeacherModel(req.body);
-    //     const teacher = await newTeacher.save();
-    //     res.status(201).json({ message: "Teacher Registered Successfully", teacher: teacher });
-    // } catch (error) {
-    //     res.status(400).json({ message: "Error Occured" });
-    // }
+    try {
+        const {
+            tname,
+            temail,
+            tphn,
+            tpassword,
+            tspecialization,
+            texp,
+            tcity,
+            tdesc
+        } = req.body;
 
-
-    try { 
-        const { tname, temail, tphn, tpassword, tspecialization, texp } = req.body;
-    
-        // Check if the teacher already exists
         const existingTeacher = await TeacherModel.findOne({ temail });
-        if (existingTeacher) {
-            return res.status(400).json({ message: "Teacher already exists" });
-        }
-    
-        // Hash the password before saving
+        if (existingTeacher) return res.status(400).json({ message: "Teacher already exists" });
+
         const hashedPassword = await bcrypt.hash(tpassword, 10);
-    
-        // Create a new teacher
+
         const newTeacher = new TeacherModel({
             tname,
             temail,
             tphn,
             tpassword: hashedPassword,
             tspecialization,
-            texp
+            texp,
+            tcity,
+            tdesc,
+            tprofile: req.file ? `/uploads/${req.file.filename}` : ''
         });
-    
+
         const teacher = await newTeacher.save();
-    
-        // Generate JWT token
+
         const token = jwt.sign(
             { teacherId: teacher._id, temail: teacher.temail },
             "your-secret-key",
             { expiresIn: "1h" }
         );
-    
-        // Return teacher data (excluding password)
+
         res.status(201).json({
             message: "Teacher Registered Successfully",
             teacher: {
@@ -109,13 +110,18 @@ const teacherregisterController = async (req, res) => {
                 tphn: teacher.tphn,
                 tspecialization: teacher.tspecialization,
                 texp: teacher.texp,
-                token: token
+                tdesc: teacher.tdesc,
+                tcity: teacher.tcity,
+                tprofile: teacher.tprofile,
+                token
             }
         });
     } catch (error) {
         res.status(400).json({ message: "Error Occurred", error: error.message });
     }
-    
-}
+};
 
-module.exports = { teacherloginController, teacherregisterController };
+module.exports = {
+    teacherloginController, teacherregisterController,
+    upload: upload.single("tprofile")
+};

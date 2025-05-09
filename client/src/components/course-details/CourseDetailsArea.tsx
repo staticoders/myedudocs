@@ -1,52 +1,69 @@
 import { useEffect, useState } from "react";
-import VideoPopup from "../../modals/VideoPopup";
-
-
+import { useParams } from "react-router-dom";
+import ReactPlayer from 'react-player';
 
 export default function CourseDetailsArea() {
 
-  const [isVideoOpen, setIsVideoOpen] = useState<boolean>(false);
 
+
+
+
+
+
+
+  const [coursesDetails, setCoursesDetails] = useState({});
+  const [videoDetails, setVideoDetails] = useState('');
+  const { id } = useParams();
+
+  const url = `http://localhost:8080/api/v1/course/courseDetails/${id}`;
+
+  // Function to extract the video ID and start time part from the YouTube URL
+  const extractVideoLinkPart = (url) => {
+    const regex = /https:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)&t=(\d+)s/;
+    const match = url.match(regex);
+
+    if (match) {
+      return `${match[1]}?start=${match[2]}`;
+    }
+    return ''; // Return empty string if no match is found
+  };
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      import('bootstrap/js/dist/tab');
-    }
-  }, []);
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        setCoursesDetails(data.course);
+        // Assuming `cvdolink` contains the YouTube URL
+        if (data.course && data.course.cvdolink) {
+          const extractedLink = extractVideoLinkPart(data.course.cvdolink);
+          setVideoDetails(extractedLink); // Set the extracted video part
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching Courses:", error);
+      });
+  }, [url]); // Fetch when `url` or `id` changes
 
-
+console.log(videoDetails);
   return (
     <>
-
-
-      {/* video modal start */}
-      <VideoPopup
-        isVideoOpen={isVideoOpen}
-        setIsVideoOpen={setIsVideoOpen}
-        videoId={"qmGYnJgCW1o"}
-      />
-      {/* video modal end */}
-
-
       <section className="courses-details section-padding">
         <div className="container">
           <div className="row">
             <div className="col-xl-8 wow fadeIn">
-              <div className="scourse_image">
-                <img src="assets/img/courses/cdetails.jpg" alt="image" />
-                <a
-                  onClick={() => setIsVideoOpen(true)}
-                  style={{ cursor: "pointer" }}
-                  className="scbtn vbtn"><svg fillRule="evenodd" clipRule="evenodd" imageRendering="optimizeQuality" shapeRendering="geometricPrecision" textRendering="geometricPrecision" viewBox="0 0 512 512"><path fill="#000001" d="M67.5-.5h20c7.153 2.115 14.153 4.948 21 8.5a55665.69 55665.69 0 00346 197c26.897 18.751 32.063 42.251 15.5 70.5a138.27 138.27 0 01-14.5 13.5 49163.454 49163.454 0 01-360 219 171.862 171.862 0 00-10 3.5h-19c-20.173-5.684-31.673-19.017-34.5-40-.667-144-.667-288 0-432 3.637-20.794 15.47-34.127 35.5-40zm10 45a131.554 131.554 0 0114 6.5 83499.427 83499.427 0 00337 192 12.375 12.375 0 015 4.5 31765.454 31765.454 0 01-355 218 3.647 3.647 0 01-1.5-1c-.83-140.04-.663-280.04.5-420z" opacity=".978" /></svg></a>
-              </div>
-
+<ReactPlayer
+          url={`https://www.youtube.com/watch?v=${videoDetails}`}
+          width="100%"
+          height="500px"
+          controls={true}
+        />
               <div className="scourse_meta">
                 <div className="smeta">
-                  <img src="assets/img/instructor.jpg" alt="author" />
+                  <img src="https://img.freepik.com/premium-photo/happy-man-ai-generated-portrait-user-profile_1119669-1.jpg?w=826" alt="author" />
                   <div className="smeta_text">
                     <span>Instructor:</span>
                     <p>
-                      <a href="#">Tony Stark</a>
+                      <a href="#">{coursesDetails.cinstructor}</a>
                     </p>
                   </div>
                 </div>
@@ -54,14 +71,14 @@ export default function CourseDetailsArea() {
                 <div className="smeta">
                   <span>Category:</span>
                   <p>
-                    Web Devilipment
+                  {coursesDetails.c_category}
                   </p>
                 </div>
 
                 <div className="smeta">
                   <span>Last Update:</span>
                   <p>
-                    13 March, 2024
+                  {coursesDetails.updatedAt}
                   </p>
 
                 </div>
@@ -85,12 +102,12 @@ export default function CourseDetailsArea() {
                 </div>
               </div>
 
-              <h2 className="scourse-title">The Complete Web Devoloper Guideline 2024</h2>
+              <h2 className="scourse-title">{coursesDetails.cname}</h2>
 
               <nav className="cd_tab">
                 <div className="nav nav-tabs" id="nav-tab" role="tablist">
                   <button className="nav-link active" id="nav-overview-tab" data-bs-toggle="tab" data-bs-target="#nav-overview" type="button" role="tab" aria-controls="nav-overview" aria-selected="true">Overview</button>
-                  <button className="nav-link" id="nav-curriculum-tab" data-bs-toggle="tab" data-bs-target="#nav-curriculum" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Curriculum</button>
+                  {/* <button className="nav-link" id="nav-curriculum-tab" data-bs-toggle="tab" data-bs-target="#nav-curriculum" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Curriculum</button> */}
                   <button className="nav-link" id="nav-review-tab" data-bs-toggle="tab" data-bs-target="#nav-review" type="button" role="tab" aria-controls="nav-review" aria-selected="false">Review</button>
                   <button className="nav-link" id="nav-instructor-tab" data-bs-toggle="tab" data-bs-target="#nav-instructor" type="button" role="tab" aria-controls="nav-disabled" aria-selected="false">Instructor</button>
                 </div>
@@ -99,15 +116,7 @@ export default function CourseDetailsArea() {
               <div className="tab-content" id="nav-tabContent">
                 <div className="tab-pane fade show active" id="nav-overview" role="tabpanel" aria-labelledby="nav-overview-tab" tabIndex={0}>
                   <p>
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived
-                  </p>
-
-                  <p>
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
-                  </p>
-
-                  <p>
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
+                  {coursesDetails.cinstructor}
                   </p>
 
                   <div className="row pt-2">
@@ -130,7 +139,7 @@ export default function CourseDetailsArea() {
                   </div>
                 </div>
 
-                <div className="tab-pane fade" id="nav-curriculum" role="tabpanel" aria-labelledby="nav-curriculum-tab" tabIndex={0}>
+                {/* <div className="tab-pane fade" id="nav-curriculum" role="tabpanel" aria-labelledby="nav-curriculum-tab" tabIndex={0}>
                   <div className="cd_curriculum">
                     <h3>Starting Beginners Level Course</h3>
                     <ul>
@@ -145,7 +154,7 @@ export default function CourseDetailsArea() {
                       <li><span><a href="#"><i className='bx bx-bulb'></i> Overview of Editing</a></span> <span className="cd_cur_right"><a href="#" className="cbtn">Preview</a>30 Minutes</span></li>
                     </ul>
                   </div>
-                </div>
+                </div> */}
 
                 <div className="tab-pane fade" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab" tabIndex={0}>
                   <div className="cd_rating">
@@ -306,7 +315,7 @@ export default function CourseDetailsArea() {
                 <div className="tab-pane fade" id="nav-instructor" role="tabpanel" aria-labelledby="nav-instructor-tab" tabIndex={0}>
                   <div className="cd_instructor">
                     <div className="cdin_image">
-                      <img src="assets/img/instructor.jpg" alt="" />
+                      <img src="https://img.freepik.com/premium-photo/happy-man-ai-generated-portrait-user-profile_1119669-1.jpg?w=826" alt="" />
                       <ul>
                         <li>
                           <a href="#"><i className="bx bxl-facebook"></i></a>
@@ -321,7 +330,7 @@ export default function CourseDetailsArea() {
                     </div>
 
                     <div className="cdin_content">
-                      <h4><a href="#">Ekram Hossain</a></h4>
+                      <h4><a href="#">{coursesDetails.cinstructor}</a></h4>
                       <span>Web Designer</span>
                       <p>
                         Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
@@ -347,7 +356,7 @@ export default function CourseDetailsArea() {
                     </span>
 
                     <span className="cside-value">
-                      24 Hours
+                      {coursesDetails.cdur} Hours
                     </span>
                   </li>
 
@@ -357,7 +366,7 @@ export default function CourseDetailsArea() {
                     </span>
 
                     <span className="cside-value">
-                      15
+                     { coursesDetails.clesson}
                     </span>
                   </li>
 
@@ -377,7 +386,7 @@ export default function CourseDetailsArea() {
                     </span>
 
                     <span className="cside-value">
-                      10 Hours
+                    { coursesDetails.cdur} Hours
                     </span>
                   </li>
 
@@ -387,7 +396,7 @@ export default function CourseDetailsArea() {
                     </span>
 
                     <span className="cside-value">
-                      Advanced
+                    {coursesDetails.cskill_level}
                     </span>
                   </li>
 
@@ -397,13 +406,13 @@ export default function CourseDetailsArea() {
                     </span>
 
                     <span className="cside-value">
-                      English
+                      {coursesDetails.clanguage}
                     </span>
                   </li>
                 </ul>
 
                 <div className="cd_price">
-                  $400 / <span>$350</span>
+                 <span> {coursesDetails.clanguage} </span>
                 </div>
 
                 <div className="text-center">

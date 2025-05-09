@@ -6,12 +6,19 @@ const colors= require('colors');
 const connectDB = require('./Config/ConnectDB');
 
 
+
+const path = require("path");
+
+
+
+
 dotenv.config();
 const app = express();
 //middlewares
 app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());    
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 //user routes
 app.use('/api/v1/users', require('./Routes/UserRoutes'));
@@ -44,6 +51,89 @@ app.use('/api/v1/deleteTeacher',require('./Routes/DeleteTeacherRoutes'));
 
 // update teacher status route
 app.use('/api/v1/updateTeacherStatus',require('./Routes/UpdateTeacherStatusRoutes'));
+
+// all teacher name
+app.use('/api/v1/',require('./Routes/TeachersNameRoutes'));
+
+// add course route
+app.use('/api/v1/course',require('./Routes/CourseAddRoutes'));
+
+// all courses route
+app.use('/api/v1/course',require('./Routes/AllcoursesRoutes'));
+
+//course Details route
+app.use('/api/v1/course/courseDetails',require('./Routes/SpecficCourseRoutes'));
+
+// course delete route
+app.use('/api/v1/course/deleteCourse',require('./Routes/DeleteCourseRoutes'));
+
+// course update route
+app.use('/api/v1/course/updateCourse',require('./Routes/UpdateCourseRoutes'));
+
+//route for TeacherOwnProfile
+app.use('/api/v1/course/Teacher/MyProfile',require('./Routes/TeacherAdminProfileRoutes'));
+
+//route for AdminOwnProfile
+app.use('/api/v1/course/Admin/MyProfile',require('./Routes/TeacherAdminProfileRoutes'));
+
+//course approval status
+app.use('/api/v1/course/UpdateCourseApprovalStatus',require('./Routes/CourseApprovalUpdateStatus'));
+
+//course details
+app.use('/api/v1/course/courseDetails',require('./Routes/CourseDetailsRoutes'))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+console.log('Mongo URI:', process.env.MONGO_URI);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
