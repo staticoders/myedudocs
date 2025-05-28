@@ -108,3 +108,72 @@
   .form-check-input {
     cursor: pointer;
   }
+
+  .course-card:hover {
+  transform: translateY(-5px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+}
+
+.card-body {
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+}
+
+
+.course-info-card:hover {
+  transform: translateY(-4px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.course-info-card .card-body {
+  background: linear-gradient(135deg, #fdfbfb, #ebedee);
+}
+
+
+.stylish-dropdown-toggle {
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  color: white !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 16px;
+  transition: background 0.3s ease-in-out;
+  border: none;
+}
+
+.stylish-dropdown-toggle:hover,
+.stylish-dropdown-toggle:focus {
+  background: linear-gradient(135deg, #5b7cfa, #9b6fe0);
+  color: #fff;
+}
+
+.stylish-dropdown-menu {
+  border-radius: 10px;
+  padding: 0.5rem 0;
+  min-width: 180px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.stylish-dropdown-menu .dropdown-item {
+  padding: 10px 20px;
+  font-size: 15px;
+  transition: background 0.3s ease;
+}
+
+.stylish-dropdown-menu .dropdown-item:hover {
+  background-color: #f1f1f1;
+  color: #6e8efb;
+  font-weight: 500;
+}
+
+div#leftside-menu-container {
+    /* top: 35px; */
+}
+
+
+.logo-lg img{
+      height: 101px !important;
+}

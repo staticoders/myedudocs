@@ -80,9 +80,9 @@ const StudentProfile = () => {
         {/* Begin page */}
         <div className="wrapper">
           {/* ========== Topbar Start ========== */}
-         
-           <Topbar />
-         
+
+          <Topbar />
+
           {/* ========== Topbar End ========== */}
           {/* ========== Left Sidebar Start ========== */}
           {"aname" in loginUser ? <Sidebar /> : <Sidebar2 />}
@@ -106,27 +106,35 @@ const StudentProfile = () => {
               {/* container */}
             </div>
             <div className="container mt-5">
-              <div className="row">
-                <div className="col-md-12 d-flex justify-content-center">
-                  <p className='userlogo'>{user.name}</p>
+              <div className="row d-flex justify-content-center align-items-center">
+                <div className="col-md-6 text-center mb-3">
+                  <h2 className="display-6 fw-bold text-primary">{user.name}</h2>
+                  <p className="text-muted">
+                    <i className="bi bi-calendar-check me-2"></i>
+                    Student Since: {new Date(user.updatedAt).toLocaleDateString()}
+                  </p>
                 </div>
-                <span className='d-flex justify-content-center'>Student Since :{new Date(user.updatedAt).toLocaleDateString()}</span>
-                <div className="col-md-12">
-                  <div className="card mt-3 shadow-sm">
-                    <div className="card-body user-card">
-                      <h5 className="card-title">Student Details</h5>
-                      <p className="card-text"><b>Name:</b> {user.name}</p>
-                      <p className="card-text"><b>Email:</b> {user.email}</p>
-                      <p className="card-text"><b>Phone:</b> {user.phn}</p>
-                      <p className="card-text"><b>Created At:</b> {new Date(user.updatedAt).toLocaleDateString()}</p>
-                      <p className="card-text"><b>Verification Status:</b> {user.Status}</p>
-                      <p className="card-text"><b>Total Courses Enrolled In :</b> 5</p>
 
+                <div className="col-md-6 offset-md-1">
+                  <div className="card shadow-lg border-0 rounded-4 student-card">
+                    <div className="card-body p-5 bg-light rounded-4">
+                      <h4 className="card-title mb-4 text-secondary fw-bold">
+                        <i className="bi bi-person-lines-fill me-2"></i> Student Details
+                      </h4>
+                      <ul className="list-unstyled lh-lg">
+                        <li><i className="bi bi-person-fill text-primary me-2"></i><strong>Name:</strong> {user.name}</li>
+                        <li><i className="bi bi-envelope-fill text-info me-2"></i><strong>Email:</strong> {user.email}</li>
+                        <li><i className="bi bi-telephone-fill text-success me-2"></i><strong>Phone:</strong> {user.phn}</li>
+                        <li><i className="bi bi-clock-fill text-warning me-2"></i><strong>Account Created:</strong> {new Date(user.updatedAt).toLocaleDateString()}</li>
+                        <li><i className="bi bi-shield-check text-success me-2"></i><strong>Verification Status:</strong> {user.Status}</li>
+                        <li><i className="bi bi-journal-check text-secondary me-2"></i><strong>Total Courses Enrolled:</strong> 5</li>
+                      </ul>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
+
             {/* content */}
             {/* Footer Start */}
             <footer className="bg-secondary text-light pt-4">

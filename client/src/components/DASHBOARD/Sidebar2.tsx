@@ -90,13 +90,10 @@ const Sidebar2 = () => {
                         <a href="/add-courses">➕ Add Relevant Course</a>
                       </li>
                       <li>
-                        <a href="/review-course-content">📖 Review Course Content</a>
+                        <a href="/manage-courses-content">📖 Review and Manage Course Content</a>
                       </li>
                       <li>
-                        <a href="/review-course-content">📖 Publish Course Content</a>
-                      </li>
-                      <li>
-                        <a href="/review-course-content">📖 Manage Course Content</a>
+                        <a href="/publish-course-content">📖 Publish Contents</a>
                       </li>
                     </ul>
                   </div>

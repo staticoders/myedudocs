@@ -98,7 +98,7 @@ export default function CounterHomeOne() {
 						{counter_data.map((item, i) => (
 							<div key={i} className="col-xl-3 col-md-6 col-12 wow fadeIn">
 								<div className="counter-item">
-									<div className="cicon" dangerouslySetInnerHTML={{ __html: item.icon }}>
+									<div className="counterIcon" dangerouslySetInnerHTML={{ __html: item.icon }} >
 
 									</div>
 									<h4>

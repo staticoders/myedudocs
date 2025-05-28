@@ -1,4 +1,4 @@
-import  { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { message } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { useParams } from 'react-router-dom';
@@ -19,12 +19,12 @@ const CourseDetails = () => {
     cdur?: Number;
     clesson?: Number;
     cskill_level?: String;
-    clanguage:String;
-    cprice:Number;
-    cdesc:String;
+    clanguage: String;
+    cprice: Number;
+    cdesc: String;
   }
 
-  
+
 
   // preventing admin to access dashboard if they are not looged in 
   useEffect(() => {
@@ -60,12 +60,12 @@ const CourseDetails = () => {
         {/* Begin page */}
         <div className="wrapper">
           {/* ========== Topbar Start ========== */}
-         
-            <Topbar  />
-        
+
+          <Topbar />
+
           {/* ========== Topbar End ========== */}
           {/* ========== Left Sidebar Start ========== */}
-         <Sidebar />
+          <Sidebar />
           {/* ========== Left Sidebar End ========== */}
           {/* ============================================================== */}
           {/* Start Page Content Here */}
@@ -88,27 +88,61 @@ const CourseDetails = () => {
             <div className="container mt-5">
               <div className="row">
                 <div className="col-md-12 d-flex justify-content-center">
-                  
-                </div>
-      
-                <div className="col-md-12">
-                  <div className="card mt-3 shadow-sm">
-                    <div className="card-body user-card">
-                      <h5 className="card-title">Course Details </h5>
-                      <p className="card-text"><b>Course Name:</b> {course.cname}</p>
-                      <p className="card-text"><b>Course Instructor:</b> {course.cinstructor}</p>
-                      <p className="card-text"><b>Course Duration:</b> {course.cdur !== undefined ? String(course.cdur) : 'N/A'} Hours</p>
-                      <p className="card-text"><b>Total Lesson:</b> {course.clesson}</p>
-                      <p className="card-text"><b>Skill Lvel Required For This Course:</b> {course.cskill_level}</p>
-                      <p className="card-text"><b>Course Category :</b> {course.c_category}</p>
-                      <p className="card-text"><b>Course Language :</b> {course.clanguage}</p>
-                      <p className="card-text"><b>Course Price:</b> {course.cprice}</p>
-                      <p className="card-text"><b>Description :</b> {course.cdesc}</p>
-                      <p className="card-text"><b>Total Student Enrolled In This Courses:</b> 5</p>
 
+                </div>
+
+                <div className="col-md-12">
+                  <div className="card mt-4 shadow-lg border-0 rounded-4 course-info-card h-100">
+                    <div className="card-body p-5 text-dark bg-light rounded-4">
+                      <h4 className="card-title text-primary fw-bold mb-4">
+                        <i className="bi bi-info-circle-fill me-2"></i> Course Details
+                      </h4>
+                      <div className="row">
+                        <div className="col-md-6 mb-3">
+                          <i className="bi bi-journal-bookmark-fill text-secondary me-2"></i>
+                          <strong>Course Name:</strong> {course.cname}
+                        </div>
+                        <div className="col-md-6 mb-3">
+                          <i className="bi bi-person-badge-fill text-info me-2"></i>
+                          <strong>Instructor:</strong> {course.cinstructor}
+                        </div>
+                        <div className="col-md-6 mb-3">
+                          <i className="bi bi-clock-history text-warning me-2"></i>
+                          <strong>Duration:</strong> {course.cdur !== undefined ? String(course.cdur) : 'N/A'} Hours
+                        </div>
+                        <div className="col-md-6 mb-3">
+                          <i className="bi bi-collection-play-fill text-success me-2"></i>
+                          <strong>Total Lessons:</strong> {course.clesson}
+                        </div>
+                        <div className="col-md-6 mb-3">
+                          <i className="bi bi-graph-up-arrow text-danger me-2"></i>
+                          <strong>Skill Level:</strong> {course.cskill_level}
+                        </div>
+                        <div className="col-md-6 mb-3">
+                          <i className="bi bi-tags-fill text-primary me-2"></i>
+                          <strong>Category:</strong> {course.c_category}
+                        </div>
+                        <div className="col-md-6 mb-3">
+                          <i className="bi bi-translate text-muted me-2"></i>
+                          <strong>Language:</strong> {course.clanguage}
+                        </div>
+                        <div className="col-md-6 mb-3">
+                          <i className="bi bi-currency-rupee text-success me-2"></i>
+                          <strong>Price:</strong> {course.cprice}
+                        </div>
+                        <div className="col-md-12 mb-3">
+                          <i className="bi bi-card-text text-dark me-2"></i>
+                          <strong>Description:</strong> <br /> {course.cdesc}
+                        </div>
+                        <div className="col-md-12">
+                          <i className="bi bi-people-fill text-secondary me-2"></i>
+                          <strong>Enrolled Students:</strong> 5
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
+
               </div>
             </div>
             {/* content */}

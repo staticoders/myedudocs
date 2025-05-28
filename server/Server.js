@@ -82,27 +82,31 @@ app.use('/api/v1/course/UpdateCourseApprovalStatus',require('./Routes/CourseAppr
 //course details
 app.use('/api/v1/course/courseDetails',require('./Routes/CourseDetailsRoutes'))
 
+// publish course content
+app.use('/api/v1/course',require('./Routes/CourseContentRoutes'))
+
+// all course content
+app.use('/api/v1/course',require('./Routes/AllCourseContentRoutes'));
+
+// update course Content Status
+app.use('/api/v1/course/updateStatus',require('./Routes/UpdateCourseContentRoutes'));
+
+// delete course content
+app.use('/api/v1/course/deleteCourseContent',require('./Routes/DeleteCourseContent'));
+
+
+// course content details
+app.use('/api/v1/course/courseContentDetails',require('./Routes/CourseContentDetailsRoutes'));
+
+
+// course content update 
+app.use('/api/v1/course/UpdateCourseContent',require('./Routes/CourseContentUpdateRoutes'));
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
 
 
 
@@ -117,25 +121,6 @@ app.use('/api/v1/course/courseDetails',require('./Routes/CourseDetailsRoutes'))
 
 
 console.log('Mongo URI:', process.env.MONGO_URI);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 //Connecting to DATABASE
 connectDB();

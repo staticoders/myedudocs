@@ -32,6 +32,10 @@ import SpecificCourseDetails from "./components/DASHBOARD/SpecificCourseDetailsI
 import UpdateCourseIndex from "./components/DASHBOARD/UpdateCoursesIndex";
 import TeacherOwnProfileIndex from "./components/DASHBOARD/TeacherOwnProfileIndex";
 import EditTeacherProfileIndex from "./components/DASHBOARD/EditTeacherProfileIndex";
+import PublishCourseContentIndex from "./components/DASHBOARD/PublishCourseContentIndex";
+import ManageCourseContentIndex from "./components/DASHBOARD/ManageCourseContentIndex";
+import CourseContentDetailsIndex from "./components/DASHBOARD/CourseContentDetailsIndex";
+import UpdateCourseContentIndex from "./components/DASHBOARD/UpdateCourseContentIndex";
 
 const router = createBrowserRouter([
   { path: "/", element: <HomeOne /> },
@@ -44,13 +48,17 @@ const router = createBrowserRouter([
   { path: "/teacherProfile/:id", element: <TeacherProfileIndex /> },
   { path: "/teacher-dashboard/teacher/MyProfile/:id", element: <TeacherOwnProfileIndex /> },
   { path: "/add-courses", element: <AddCourseIndex /> },
+  { path: "/publish-course-content", element: <PublishCourseContentIndex /> },
   { path: "/manage-courses", element: <ManageCoursesIndex /> },
   { path: "/about", element: <About /> },
   { path: "/courses", element: <Courses /> },
   { path: "/course-details/:id", element: <CourseDetails /> },
   { path: "/teacher/edit-my-profile/:id", element: <EditTeacherProfileIndex /> },
-  // { path: "/CourseDetails/:id", element: < SpecificCourseDetails /> },
+  { path: "/CourseDetails/:id", element: < SpecificCourseDetails /> },
+  { path: "/updateCourse-content/:id", element: < UpdateCourseContentIndex /> },
   { path: "/updateCourse/:id", element: <UpdateCourseIndex /> },
+  { path: "/manage-courses-content", element: <ManageCourseContentIndex /> },
+  { path: "/content-details/:id", element: <CourseContentDetailsIndex /> },
   { path: "/grid-blog", element: <GridBlog /> },
   { path: "/standard-blog", element: <StandardBlog /> },
   { path: "/blog-details", element: <BlogDetails /> },

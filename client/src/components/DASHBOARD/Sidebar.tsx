@@ -7,10 +7,10 @@ const Sidebar = () => {
             {/* Brand Logo Light */}
             <a href="index.html" className="logo logo-light">
               <span className="logo-lg">
-                <img src="https://coderthemes.com/hyper/saas/assets/images/logo.png" alt="logo" />
+                <img src="../../../public/Edudocs Logo-01.png" alt="logo" />
               </span>
               <span className="logo-sm">
-                <img src="assets/images/logo-sm.png" alt="small logo" />
+                <img src="" alt="small logo" />
               </span>
             </a>
             {/* Brand Logo Dark */}
@@ -92,7 +92,7 @@ const Sidebar = () => {
                       </li>
 
                       <li>
-                        <a href="/review-course-content">📖 Review Course Content</a>
+                        <a href="/manage-courses-content">📖 Review and Manage Course Content</a>
                       </li>
                     </ul>
                   </div>

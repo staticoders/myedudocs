@@ -1,32 +1,37 @@
-import { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 import { message } from 'antd'
 import { useNavigate } from 'react-router-dom'
-
 import { useParams } from 'react-router-dom';
 import Topbar from './Topbar';
-import Sidebar2 from './Sidebar2';
 import Sidebar from './Sidebar';
+import Sidebar2 from './Sidebar2';
 
-const TeacherProfile = () => {
+
+const CourseContentDetails = () => {
 
 
   const Navigate = useNavigate();
 
 
   // Get user from local storage
+    const [loginUser, setLoginuser] = useState<{ name?: string, tname?: string, aname?: string }>({})
+    useEffect(() => {
+        const user = localStorage.getItem('edudocs') ? JSON.parse(localStorage.getItem('edudocs') as string) : null
+        if (user) {
+            setLoginuser(user)
+        }
+    }, [])
+
+  // Get user from local storage
   interface User {
-    name?: string;
-    aname?: string;
-    tname?: string;
-    temail?: string;
-    tphn?: string;
-    Status?: string;
-    tspecialization: String;
-    texp: String;
+    content_subject?: String;
+    content_category?: String;
+    content?: String;
+    author?: String;
+    approved?: String;
   }
 
-
-
+  
 
   // preventing admin to access dashboard if they are not looged in 
   useEffect(() => {
@@ -38,34 +43,22 @@ const TeacherProfile = () => {
 
 
 
-  //get user id from url
-
-
-
   // get Specificuser data from backend 
   const { id } = useParams()
-  const [teacher, setTeacher] = useState<User>({})
+  const [CourseContent, setCourseContent] = useState<User>({})
 
   useEffect(() => {
-    fetch(`http://localhost:8080/api/v1/teacherProfile/${id}`) // Update with your backend URL
+    fetch(`http://localhost:8080/api/v1/course/courseContentDetails/${id}`) // Update with your backend URL
       .then((response) => response.json())
       .then((data) => {
-        setTeacher(data.teacher);
+        setCourseContent(data.contents);
       })
       .catch((error) => {
-        console.error("Error fetching Teacher:", error);
+        console.error("Error fetching Course:", error);
       });
   }, []);
 
-  // console.log(teacher);  // Get user from local storage
-    const [loginUser, setLoginuser] = useState<{ name?: string, tname?: string, aname?: string }>({})
-    useEffect(() => {
-        const user = localStorage.getItem('edudocs') ? JSON.parse(localStorage.getItem('edudocs') as string) : null
-        if (user) {
-            setLoginuser(user)
-        }
-    }, [])
-      
+  console.log(CourseContent);
 
   return (
     <>
@@ -74,10 +67,12 @@ const TeacherProfile = () => {
         {/* Begin page */}
         <div className="wrapper">
           {/* ========== Topbar Start ========== */}
-          <Topbar />
+         
+            <Topbar  />
+        
           {/* ========== Topbar End ========== */}
           {/* ========== Left Sidebar Start ========== */}
-         {"aname" in loginUser ?<Sidebar /> : <Sidebar2 />}
+        {"aname" in loginUser ? <Sidebar/> :<Sidebar2/>}
           {/* ========== Left Sidebar End ========== */}
           {/* ============================================================== */}
           {/* Start Page Content Here */}
@@ -98,36 +93,45 @@ const TeacherProfile = () => {
               {/* container */}
             </div>
             <div className="container mt-5">
-              <div className="row d-flex align-items-center justify-content-center">
-                <div className="col-md-6 text-center mb-3">
-                  <h2 className="display-6 fw-bold text-primary">{teacher.tname}</h2>
-                  <p className="text-muted">
-                    <i className="bi bi-calendar-check me-2"></i>
-                    Teacher Since: {new Date(teacher.updatedAt).toLocaleDateString()}
-                  </p>
+              <div className="row d-flex justify-content-center">
+                <div className="col-md-12 d-flex justify-content-center">
+                  
                 </div>
+      
+                <div className="col-md-4">
+  <div className="card mt-4 shadow-lg border-0 rounded-4 course-card h-100">
+    <div className="card-body p-4 text-dark bg-light rounded-4">
+      <h4 className="card-title mb-4 text-primary fw-bold">
+        <i className="bi bi-journal-text me-2"></i> Course Details
+      </h4>
+      <ul className="list-unstyled lh-lg">
+        <li>
+          <i className="bi bi-book-fill text-info me-2"></i>
+          <strong>Subject:</strong> {CourseContent.content_subject}
+        </li>
+        <li>
+          <i className="bi bi-tags-fill text-warning me-2"></i>
+          <strong>Category:</strong> {CourseContent.content_category}
+        </li>
+        <li>
+          <i className="bi bi-file-text-fill text-success me-2"></i>
+          <strong>Content:</strong> {CourseContent.content}
+        </li>
+        <li>
+          <i className="bi bi-person-circle text-secondary me-2"></i>
+          <strong>Author:</strong> {CourseContent.author}
+        </li>
+        <li>
+          <i className="bi bi-check2-circle text-primary me-2"></i>
+          <strong>Status:</strong> {CourseContent.approved}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
 
-                <div className="col-md-6 offset-md-1">
-                  <div className="card shadow-lg border-0 rounded-4 teacher-card">
-                    <div className="card-body p-5 bg-light rounded-4">
-                      <h4 className="card-title mb-4 text-secondary fw-bold">
-                        <i className="bi bi-person-vcard-fill me-2"></i> Teacher Details
-                      </h4>
-                      <ul className="list-unstyled lh-lg">
-                        <li><i className="bi bi-person-fill me-2 text-primary"></i><strong>Name:</strong> {teacher.tname}</li>
-                        <li><i className="bi bi-envelope-fill me-2 text-info"></i><strong>Email:</strong> {teacher.temail}</li>
-                        <li><i className="bi bi-telephone-fill me-2 text-success"></i><strong>Contact:</strong> {teacher.tphn}</li>
-                        <li><i className="bi bi-award-fill me-2 text-warning"></i><strong>Specialization:</strong> {teacher.tspecialization}</li>
-                        <li><i className="bi bi-briefcase-fill me-2 text-dark"></i><strong>Experience:</strong> {teacher.texp} Years</li>
-                        <li><i className="bi bi-building-check me-2 text-muted"></i><strong>MyEduDocs Since:</strong> {new Date(teacher.updatedAt).toLocaleDateString()}</li>
-                        <li><i className="bi bi-shield-check me-2 text-success"></i><strong>Verification Status:</strong> {teacher.Status}</li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
-
             {/* content */}
             {/* Footer Start */}
             <footer className="bg-secondary text-light pt-4">
@@ -181,4 +185,4 @@ const TeacherProfile = () => {
   );
 }
 
-export default TeacherProfile;
+export default CourseContentDetails;

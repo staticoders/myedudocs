@@ -96,3 +96,18 @@
 .preloader{
     background-color: #00a3b1 !important;
 }
+
+.counterIcon {
+    width: 39px;
+    height: 39px;
+    /* background: burlywood; */
+    /* padding: 5px; */
+    /* border-radius: 53px; */
+}
+
+.course_cat {
+    display: inline-block;
+    position: absolute;
+    top: 29px;
+}
+

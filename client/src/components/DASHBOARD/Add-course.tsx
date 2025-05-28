@@ -5,7 +5,7 @@ import axios from 'axios';
 import { Button, Stack } from "@mui/material";
 import Sidebar from './Sidebar';
 import Topbar from './Topbar';
-
+import Sidebar2 from './Sidebar2';
 
 const AddCourse = () => {
 
@@ -71,6 +71,14 @@ const AddCourse = () => {
         }
     }, [])
 
+
+    var link = null;
+    if ("tname" in loginUser) {
+        link = <Sidebar2 />;
+    } 
+     if ("aname" in loginUser) {
+        link = <Sidebar />;
+     }
 
     return (
         <>
