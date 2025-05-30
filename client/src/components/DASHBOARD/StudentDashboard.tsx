@@ -142,7 +142,7 @@ function QuickLinkCard({ title, description, icon, bgColor }: QuickLinkCardProps
 // Main StudentDashboard Component (Student Command Center Dashboard)
 function StudentDashboard() {
 
-   useEffect(() => {
+  useEffect(() => {
     const script = document.createElement('script');
     script.src = "https://cdn.tailwindcss.com";
     script.async = true;

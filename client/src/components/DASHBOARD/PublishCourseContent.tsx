@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
 import { message } from 'antd'
-import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
-import { Button, Stack } from "@mui/material";
 import Sidebar from './Sidebar';
 import Sidebar2 from './Sidebar2';
 import Topbar from './Topbar';
+import url from '../../url';
 
 
 const PublishCourseContent = () => {
@@ -23,7 +22,7 @@ const PublishCourseContent = () => {
         const author = formData.get("author") as string;
 
         try {
-            await axios.post('http://localhost:8080/api/v1/course/createCourseContent', { content_subject, content_category, content, author });
+            await axios.post(`${url}/course/createCourseContent`, { content_subject, content_category, content, author });
             message.success("Content Published Successfully");
 
             setInterval(() => {

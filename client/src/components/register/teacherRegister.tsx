@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { message } from 'antd';
 
 import axios from "axios";
+import url from "../../url";
 
 export default function TeacherRegistration() {
   const Navigate = useNavigate();
@@ -10,7 +11,7 @@ export default function TeacherRegistration() {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     try {
-      await axios.post('http://localhost:8080/api/v1/teachers/teacherRegister', formData, {
+      await axios.post(`${url}/teachers/teacherRegister`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

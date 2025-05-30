@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { useParams } from 'react-router-dom';
 import Topbar from './Topbar';
 import Sidebar from './Sidebar';
+import url from '../../url';
 
 
 const CourseDetails = () => {
@@ -41,7 +42,7 @@ const CourseDetails = () => {
   const [course, setCourse] = useState<User>({})
 
   useEffect(() => {
-    fetch(`http://localhost:8080/api/v1/course/courseDetails/${id}`) // Update with your backend URL
+    fetch(`${url}/course/courseDetails/${id}`) // Update with your backend URL
       .then((response) => response.json())
       .then((data) => {
         setCourse(data.course);

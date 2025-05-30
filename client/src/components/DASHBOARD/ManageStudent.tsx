@@ -1,4 +1,4 @@
-import  { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { message } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
@@ -7,10 +7,11 @@ import { Button, Stack } from "@mui/material";
 import Sidebar from './Sidebar';
 import Topbar from './Topbar';
 import Sidebar2 from './Sidebar2';
+import url from '../../url';
 const ManageStudents = () => {
 
 
-    
+
     const Navigate = useNavigate();
 
 
@@ -57,7 +58,7 @@ const ManageStudents = () => {
     // const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetch("http://localhost:8080/api/v1/count/getAllStudents") // Update with your backend URL
+        fetch(`${url}/count/getAllStudents`) // Update with your backend URL
             .then((response) => response.json())
             .then((data) => {
                 setUsers(data);
@@ -147,7 +148,7 @@ const ManageStudents = () => {
                     <Topbar />
                     {/* ========== Topbar End ========== */}
                     {/* ========== Left Sidebar Start ========== */}
-                     {"aname" in loginUser ? <Sidebar /> : <Sidebar2 />}
+                    {"aname" in loginUser ? <Sidebar /> : <Sidebar2 />}
                     {/* ========== Left Sidebar End ========== */}
                     {/* ============================================================== */}
                     {/* Start Page Content Here */}

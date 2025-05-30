@@ -5,6 +5,7 @@ import axios from 'axios';
 import Sidebar from './Sidebar';
 import Topbar from './Topbar';
 import Sidebar2 from './Sidebar2';
+import url from '../../url';
 
 
 const UpdateCourseContent = () => {
@@ -28,7 +29,7 @@ const UpdateCourseContent = () => {
         content: ''
     });
     useEffect(() => {
-        fetch(`http://localhost:8080/api/v1/course/courseContentDetails/${id.id}`)
+        fetch(`${url}/course/courseContentDetails/${id.id}`)
             .then((response) => response.json())
             .then((data) => {
                 setCourses(data.contents);
@@ -59,7 +60,7 @@ const UpdateCourseContent = () => {
         }
 
         try {
-            await axios.put(`http://localhost:8080/api/v1/course/UpdateCourseContent/${id.id}`, formData,);
+            await axios.put(`${url}/course/UpdateCourseContent/${id.id}`, formData,);
             message.success(" Content Updated Successfully");
             setTimeout(() => {
                 window.location.href = "/manage-courses-content";

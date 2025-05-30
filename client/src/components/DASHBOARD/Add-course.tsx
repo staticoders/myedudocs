@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
 import { message } from 'antd'
-import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
-import { Button, Stack } from "@mui/material";
 import Sidebar from './Sidebar';
 import Topbar from './Topbar';
 import Sidebar2 from './Sidebar2';
+import url from '../../url';
 
 const AddCourse = () => {
 
@@ -18,7 +17,7 @@ const AddCourse = () => {
     const [teachersName, SetTeachersName] = useState<Teacher[]>([])
 
     useEffect(() => {
-        fetch("http://localhost:8080/api/v1/allteachersName") // Update with your backend URL
+        fetch(`${url}/allteachersName`) // Update with your backend URL
             .then((response) => response.json())
             .then((data) => {
                 SetTeachersName(data.teachers);
@@ -44,7 +43,7 @@ const AddCourse = () => {
 
 
         try {
-            await axios.post('http://localhost:8080/api/v1/course/addCourse', formData, {
+            await axios.post(`${url}/course/addCourse`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -75,10 +74,10 @@ const AddCourse = () => {
     var link = null;
     if ("tname" in loginUser) {
         link = <Sidebar2 />;
-    } 
-     if ("aname" in loginUser) {
+    }
+    if ("aname" in loginUser) {
         link = <Sidebar />;
-     }
+    }
 
     return (
         <>

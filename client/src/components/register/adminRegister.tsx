@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { message } from 'antd';
-
+import url from "../../url"
 import axios from "axios";
 
 export default function AdminRegister() {
@@ -17,7 +17,7 @@ export default function AdminRegister() {
    
   
     try {
-      await axios.post('http://localhost:8080/api/v1/admin/adminRegister', { aname, aemail, apassword });
+      await axios.post(`${url}/admin/adminRegister`, { aname, aemail, apassword });
       message.success("Registration Successful");
   
       // Correcting Navigate usage

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { useParams } from 'react-router-dom';
 import Topbar from './Topbar';
 import Sidebar2 from './Sidebar2';
+import url from '../../url';
 const TeacherOwnProfile = () => {
 
 
@@ -26,7 +27,7 @@ const TeacherOwnProfile = () => {
   const [teacher, setTeacher] = useState<User>({})
 
   useEffect(() => {
-    fetch(`http://localhost:8080/api/v1/course/Teacher/MyProfile/${id}`)
+    fetch(`${url}/Teacher/MyProfile/${id}`)
       .then(res => res.json())
       .then(data => {
         setTeacher(data.teacher);

@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import Topbar from './Topbar';
 import Sidebar from './Sidebar';
 import Sidebar2 from './Sidebar2';
+import url from '../../url';
 
 const StudentProfile = () => {
 
@@ -59,7 +60,7 @@ const StudentProfile = () => {
   const [user, setUser] = useState<User>({})
 
   useEffect(() => {
-    fetch(`http://localhost:8080/api/v1/userProfile/${id}`) // Update with your backend URL
+    fetch(`${url}/userProfile/${id}`) // Update with your backend URL
       .then((response) => response.json())
       .then((data) => {
         setUser(data.user);

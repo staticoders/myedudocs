@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import React, { useEffect } from 'react';
 import { message } from 'antd';
 import axios from "axios";
-
+import url from "../../url"
 
 
 export default function LoginForm() {
@@ -29,7 +29,7 @@ export default function LoginForm() {
     // const navigate = useNavigate(); // Use inside a React functional component
 
     try {
-        const { data } = await axios.post('http://localhost:8080/api/v1/users/login', { email, password });
+        const { data } = await axios.post(`${url}/users/login`, { email, password });
 
         message.success("Logged in successfully");
 

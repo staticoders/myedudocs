@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import Topbar from './Topbar';
 import Sidebar2 from './Sidebar2';
 import Sidebar from './Sidebar';
+import url from '../../url';
 
 const TeacherProfile = () => {
 
@@ -47,7 +48,7 @@ const TeacherProfile = () => {
   const [teacher, setTeacher] = useState<User>({})
 
   useEffect(() => {
-    fetch(`http://localhost:8080/api/v1/teacherProfile/${id}`) // Update with your backend URL
+    fetch(`${url}/teacherProfile/${id}`) // Update with your backend URL
       .then((response) => response.json())
       .then((data) => {
         setTeacher(data.teacher);
@@ -58,14 +59,14 @@ const TeacherProfile = () => {
   }, []);
 
   // console.log(teacher);  // Get user from local storage
-    const [loginUser, setLoginuser] = useState<{ name?: string, tname?: string, aname?: string }>({})
-    useEffect(() => {
-        const user = localStorage.getItem('edudocs') ? JSON.parse(localStorage.getItem('edudocs') as string) : null
-        if (user) {
-            setLoginuser(user)
-        }
-    }, [])
-      
+  const [loginUser, setLoginuser] = useState<{ name?: string, tname?: string, aname?: string }>({})
+  useEffect(() => {
+    const user = localStorage.getItem('edudocs') ? JSON.parse(localStorage.getItem('edudocs') as string) : null
+    if (user) {
+      setLoginuser(user)
+    }
+  }, [])
+
 
   return (
     <>
@@ -77,7 +78,7 @@ const TeacherProfile = () => {
           <Topbar />
           {/* ========== Topbar End ========== */}
           {/* ========== Left Sidebar Start ========== */}
-         {"aname" in loginUser ?<Sidebar /> : <Sidebar2 />}
+          {"aname" in loginUser ? <Sidebar /> : <Sidebar2 />}
           {/* ========== Left Sidebar End ========== */}
           {/* ============================================================== */}
           {/* Start Page Content Here */}

@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import React, { useEffect } from 'react';
 import { message,Form } from 'antd';
 import axios from "axios";
-
+import url from "../../url"
 
 
 export default function AdminLoginForm() {
@@ -15,7 +15,7 @@ export default function AdminLoginForm() {
     const apassword = formData.get("apassword") as string;
 
     try {
-      const { data } = await axios.post("http://localhost:8080/api/v1/admin/adminLogin", { aemail, apassword });
+      const { data } = await axios.post(`${url}/admin/adminLogin`, { aemail, apassword });
 
       message.success("Logged in successfully");
 

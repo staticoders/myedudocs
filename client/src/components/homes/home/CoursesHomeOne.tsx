@@ -3,13 +3,14 @@ import { Link } from 'react-router-dom'
 import { Autoplay, Navigation } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { useEffect, useState } from 'react';
+import url from '../../../url';
 export default function CoursesHomeOne() {
 
 
   const [courses, setCourses] = useState({});
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/v1/course/allCourses")
+    fetch(`${url}/course/allCourses`)
       .then((response) => response.json())
       .then((data) => {
         setCourses(data.courses);
@@ -112,7 +113,7 @@ export default function CoursesHomeOne() {
 
                             <div className="ccategory">
                               <a href="#">
-                               {course.c_category}
+                                {course.c_category}
                               </a>
                             </div>
                           </div>

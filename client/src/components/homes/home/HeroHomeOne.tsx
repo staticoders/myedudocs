@@ -2,6 +2,7 @@
 "use client"
 import axios from 'axios';
 import { useEffect, useState } from 'react'
+import url from '../../../url';
 
 export default function HeroHomeOne() { 
 
@@ -37,7 +38,7 @@ export default function HeroHomeOne() {
     useEffect(() => {
       const fetchUsers = async () => {
         try {
-          const resp = await axios.get("http://localhost:8080/api/v1/count/getAllStudents");
+          const resp = await axios.get(`${url}/count/getAllStudents`);
           setUsers(resp.data);
         } catch (error) {
           console.error("Error fetching users:", error);

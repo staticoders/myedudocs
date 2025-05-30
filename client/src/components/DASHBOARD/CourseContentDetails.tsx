@@ -1,10 +1,11 @@
-import  { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { message } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { useParams } from 'react-router-dom';
 import Topbar from './Topbar';
 import Sidebar from './Sidebar';
 import Sidebar2 from './Sidebar2';
+import url from '../../url';
 
 
 const CourseContentDetails = () => {
@@ -14,13 +15,13 @@ const CourseContentDetails = () => {
 
 
   // Get user from local storage
-    const [loginUser, setLoginuser] = useState<{ name?: string, tname?: string, aname?: string }>({})
-    useEffect(() => {
-        const user = localStorage.getItem('edudocs') ? JSON.parse(localStorage.getItem('edudocs') as string) : null
-        if (user) {
-            setLoginuser(user)
-        }
-    }, [])
+  const [loginUser, setLoginuser] = useState<{ name?: string, tname?: string, aname?: string }>({})
+  useEffect(() => {
+    const user = localStorage.getItem('edudocs') ? JSON.parse(localStorage.getItem('edudocs') as string) : null
+    if (user) {
+      setLoginuser(user)
+    }
+  }, [])
 
   // Get user from local storage
   interface User {
@@ -31,7 +32,7 @@ const CourseContentDetails = () => {
     approved?: String;
   }
 
-  
+
 
   // preventing admin to access dashboard if they are not looged in 
   useEffect(() => {
@@ -48,7 +49,7 @@ const CourseContentDetails = () => {
   const [CourseContent, setCourseContent] = useState<User>({})
 
   useEffect(() => {
-    fetch(`http://localhost:8080/api/v1/course/courseContentDetails/${id}`) // Update with your backend URL
+    fetch(`${url}/course/courseContentDetails/${id}`) // Update with your backend URL
       .then((response) => response.json())
       .then((data) => {
         setCourseContent(data.contents);
@@ -67,12 +68,12 @@ const CourseContentDetails = () => {
         {/* Begin page */}
         <div className="wrapper">
           {/* ========== Topbar Start ========== */}
-         
-            <Topbar  />
-        
+
+          <Topbar />
+
           {/* ========== Topbar End ========== */}
           {/* ========== Left Sidebar Start ========== */}
-        {"aname" in loginUser ? <Sidebar/> :<Sidebar2/>}
+          {"aname" in loginUser ? <Sidebar /> : <Sidebar2 />}
           {/* ========== Left Sidebar End ========== */}
           {/* ============================================================== */}
           {/* Start Page Content Here */}
@@ -95,40 +96,40 @@ const CourseContentDetails = () => {
             <div className="container mt-5">
               <div className="row d-flex justify-content-center">
                 <div className="col-md-12 d-flex justify-content-center">
-                  
+
                 </div>
-      
+
                 <div className="col-md-4">
-  <div className="card mt-4 shadow-lg border-0 rounded-4 course-card h-100">
-    <div className="card-body p-4 text-dark bg-light rounded-4">
-      <h4 className="card-title mb-4 text-primary fw-bold">
-        <i className="bi bi-journal-text me-2"></i> Course Details
-      </h4>
-      <ul className="list-unstyled lh-lg">
-        <li>
-          <i className="bi bi-book-fill text-info me-2"></i>
-          <strong>Subject:</strong> {CourseContent.content_subject}
-        </li>
-        <li>
-          <i className="bi bi-tags-fill text-warning me-2"></i>
-          <strong>Category:</strong> {CourseContent.content_category}
-        </li>
-        <li>
-          <i className="bi bi-file-text-fill text-success me-2"></i>
-          <strong>Content:</strong> {CourseContent.content}
-        </li>
-        <li>
-          <i className="bi bi-person-circle text-secondary me-2"></i>
-          <strong>Author:</strong> {CourseContent.author}
-        </li>
-        <li>
-          <i className="bi bi-check2-circle text-primary me-2"></i>
-          <strong>Status:</strong> {CourseContent.approved}
-        </li>
-      </ul>
-    </div>
-  </div>
-</div>
+                  <div className="card mt-4 shadow-lg border-0 rounded-4 course-card h-100">
+                    <div className="card-body p-4 text-dark bg-light rounded-4">
+                      <h4 className="card-title mb-4 text-primary fw-bold">
+                        <i className="bi bi-journal-text me-2"></i> Course Details
+                      </h4>
+                      <ul className="list-unstyled lh-lg">
+                        <li>
+                          <i className="bi bi-book-fill text-info me-2"></i>
+                          <strong>Subject:</strong> {CourseContent.content_subject}
+                        </li>
+                        <li>
+                          <i className="bi bi-tags-fill text-warning me-2"></i>
+                          <strong>Category:</strong> {CourseContent.content_category}
+                        </li>
+                        <li>
+                          <i className="bi bi-file-text-fill text-success me-2"></i>
+                          <strong>Content:</strong> {CourseContent.content}
+                        </li>
+                        <li>
+                          <i className="bi bi-person-circle text-secondary me-2"></i>
+                          <strong>Author:</strong> {CourseContent.author}
+                        </li>
+                        <li>
+                          <i className="bi bi-check2-circle text-primary me-2"></i>
+                          <strong>Status:</strong> {CourseContent.approved}
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
 
               </div>
             </div>

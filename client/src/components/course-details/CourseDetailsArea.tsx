@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ReactPlayer from 'react-player';
+import uri from "../../url";
 
 export default function CourseDetailsArea() {
 
@@ -15,7 +16,7 @@ export default function CourseDetailsArea() {
   const [videoDetails, setVideoDetails] = useState('');
   const { id } = useParams();
 
-  const url = `http://localhost:8080/api/v1/course/courseDetails/${id}`;
+  const url = `${uri}/course/courseDetails/${id}`;
 
   // Function to extract the video ID and start time part from the YouTube URL
   const extractVideoLinkPart = (url) => {

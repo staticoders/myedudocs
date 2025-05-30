@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import { message } from 'antd'
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios';
-import { Button, Stack } from "@mui/material";
+
 import Sidebar from './Sidebar';
 import Topbar from './Topbar';
-import { File } from 'lucide-react';
 import Sidebar2 from './Sidebar2';
+import url from '../../url';
 
 
 const UpdateCourse = () => {
@@ -28,7 +28,7 @@ const UpdateCourse = () => {
         cvdolink: "",
     });
     useEffect(() => {
-        fetch(`http://localhost:8080/api/v1/course/courseDetails/${id.id}`)
+        fetch(`${url}/course/courseDetails/${id.id}`)
             .then((response) => response.json())
             .then((data) => {
                 setCourses(data.course);
@@ -44,7 +44,7 @@ const UpdateCourse = () => {
 
     const [teachersName, SetTeachersName] = useState([])
     useEffect(() => {
-        fetch("http://localhost:8080/api/v1/allteachersName") // Update with your backend URL
+        fetch(`${url}/allteachersName`) // Update with your backend URL
             .then((response) => response.json())
             .then((data) => {
                 SetTeachersName(data.teachers);
@@ -86,7 +86,7 @@ const UpdateCourse = () => {
         }
 
         try {
-            await axios.put(`http://localhost:8080/api/v1/course/updateCourse/${id.id}`, formData, {
+            await axios.put(`${url}/course/updateCourse/${id.id}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

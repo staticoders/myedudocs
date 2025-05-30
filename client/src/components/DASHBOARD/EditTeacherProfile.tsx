@@ -8,6 +8,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import axios from "axios";
 import Topbar from './Topbar';
 import Sidebar2 from './Sidebar2';
+import url from '../../url';
 const EditTeacherProfile = () => {
 
 
@@ -16,7 +17,7 @@ const EditTeacherProfile = () => {
   const [teacher, setTeacher] = useState({})
   const {id}=useParams();
   useEffect(() => {
-      fetch(`http://localhost:8080/api/v1/course/Teacher/MyProfile/${id}`)
+      fetch(`${url}/course/Teacher/MyProfile/${id}`)
           .then(res => res.json())
           .then(data => {
               setTeacher(data.teacher);
@@ -36,7 +37,7 @@ const EditTeacherProfile = () => {
       e.preventDefault();
       const formData = new FormData(e.currentTarget);
       try {
-          await axios.post('http://localhost:8080/api/v1/teachers/teacherRegister', formData, {
+          await axios.post(`${url}/teachers/teacherRegister`, formData, {
               headers: {
                   'Content-Type': 'multipart/form-data',
               },

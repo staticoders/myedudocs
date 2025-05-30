@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { message } from 'antd';
 
 import axios from "axios";
+import url from "../../url";
 
 export default function RegisterForm() {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ export default function RegisterForm() {
     const password = formData.get("password") as string;
   
     try {
-      await axios.post('http://localhost:8080/api/v1/users/register', { name, email, phn, password });
+      await axios.post(`${url}/users/register`, { name, email, phn, password });
       message.success("Registration Successful");
   
       // Correcting Navigate usage

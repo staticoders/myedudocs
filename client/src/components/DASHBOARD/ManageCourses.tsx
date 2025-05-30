@@ -7,6 +7,7 @@ import { Button, Stack } from "@mui/material";
 import Sidebar from './Sidebar';
 import Topbar from './Topbar';
 import Sidebar2 from './Sidebar2';
+import url from '../../url';
 
 const ManageCourses = () => {
 
@@ -42,7 +43,7 @@ const ManageCourses = () => {
     const [Courses, setCourses] = useState<UsersData>({});
 
     useEffect(() => {
-        fetch("http://localhost:8080/api/v1/course/allCourses")
+        fetch(`${url}/course/allCourses`)
             .then((response) => response.json())
             .then((data) => {
                 setCourses(data.courses);

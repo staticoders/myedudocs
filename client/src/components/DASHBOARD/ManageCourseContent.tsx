@@ -7,6 +7,7 @@ import { Button, Stack } from "@mui/material";
 import Sidebar from './Sidebar';
 import Topbar from './Topbar';
 import Sidebar2 from './Sidebar2';
+import url from '../../url';
 
 const ManageCoursesContent = () => {
 
@@ -42,7 +43,7 @@ const ManageCoursesContent = () => {
     const [courseContent, setcourseContent] = useState<UsersData>({});
 
     useEffect(() => {
-        fetch("http://localhost:8080/api/v1/course/allCourseContent")
+        fetch(`${url}/course/allCourseContent`)
             .then((response) => response.json())
             .then((data) => {
                 setcourseContent(data.result);
@@ -57,15 +58,15 @@ const ManageCoursesContent = () => {
     var link = null;
     if ("tname" in loginUser) {
         link = <Sidebar2 />;
-    } 
-     if ("aname" in loginUser) {
+    }
+    if ("aname" in loginUser) {
         link = <Sidebar />;
-     }
+    }
 
 
 
 
-    const columns = [ 
+    const columns = [
         { field: "_id", headerName: "Course ID", width: 200 },
         { field: "content_subject", headerName: "Subject", width: 200 },
         { field: "content_category", headerName: "Category", width: 200 },

@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import React, { useEffect } from 'react';
 import { message } from 'antd';
 import axios from "axios";
+import url from "../../url"
 
 
 
@@ -13,8 +14,8 @@ export default function LoginForm() {
     const formData = new FormData(e.currentTarget);
     const temail = formData.get("temail") as string;
     const tpassword = formData.get("tpassword") as string;
-    try {
-      const { data } = await axios.post("http://localhost:8080/api/v1/teachers/teacherLogin", {temail,tpassword});
+    try {  
+      const { data } = await axios.post(`${url}/teachers/teacherLogin`, {temail,tpassword});
 
       message.success("Login Successful");
 

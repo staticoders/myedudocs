@@ -1,6 +1,7 @@
 import Count from "../../common/Count";
 import axios from 'axios';
 import { useEffect, useState } from 'react'
+import url from "../../../url";
 
 
 
@@ -15,7 +16,7 @@ export default function CounterHomeOne() {
 	useEffect(() => {
 		const fetchUsers = async () => {
 			try {
-				const resp = await axios.get("http://localhost:8080/api/v1/count/getAllStudents");
+				const resp = await axios.get(`${url}/count/getAllStudents`);
 				setUsers(resp.data.userCount);
 
 
@@ -32,7 +33,7 @@ export default function CounterHomeOne() {
 	useEffect(() => {
 		const fetchTeachers = async () => {
 			try {
-				const resp = await axios.get("http://localhost:8080/api/v1/count/getAllTeachers");
+				const resp = await axios.get(`${url}/count/getAllTeachers`);
 				setTeachers(resp.data.teacherCount);
 
 

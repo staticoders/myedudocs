@@ -1,4 +1,4 @@
-import  { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { message } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
@@ -6,6 +6,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { Button, Stack } from "@mui/material";
 import Sidebar from './Sidebar';
 import Topbar from './Topbar';
+import url from '../../url';
 
 const ManageTeachers = () => {
 
@@ -56,7 +57,7 @@ const ManageTeachers = () => {
     const [teacherCount, setteacherCount] = useState(true);
 
     useEffect(() => {
-        fetch("http://localhost:8080/api/v1/count/getAllTeachers") // Update with your backend URL
+        fetch(`${url}/count/getAllTeachers`) // Update with your backend URL
             .then((response) => response.json())
             .then((data) => {
                 setTeachers(data);
@@ -95,36 +96,36 @@ const ManageTeachers = () => {
                     <a className='btn btn-primary' href={`/teacherProfile/${params.row._id}`} style={{ textDecoration: 'none', color: 'primary' }}>View</a>
                     {/* <Button variant="contained" color="secondary" size="small" >Edit</Button> */}
                     <Button onClick={
-                      async () => {
-                        try {
-                            const response = await axios.delete(`http://localhost:8080/api/v1/deleteTeacher/${params.row._id}`);
-                            // console.log(response.data); // Handle success response
-                            message.success("Teacher Deleted Successfully", 4)
-                            // window.location.reload()
-                            setTimeout(() => {
-                                window.location.reload(); // Reloads the current page
-                            }, 4000);
-                        } catch (error) {
-                            console.error(error); // Handle error response
-                            message.error("Error Deleting Teacher", 4)
+                        async () => {
+                            try {
+                                const response = await axios.delete(`http://localhost:8080/api/v1/deleteTeacher/${params.row._id}`);
+                                // console.log(response.data); // Handle success response
+                                message.success("Teacher Deleted Successfully", 4)
+                                // window.location.reload()
+                                setTimeout(() => {
+                                    window.location.reload(); // Reloads the current page
+                                }, 4000);
+                            } catch (error) {
+                                console.error(error); // Handle error response
+                                message.error("Error Deleting Teacher", 4)
+                            }
                         }
-                    }
                     } variant="contained" color="error" size="small" >Delete</Button>
                     <Button onClick={
-                      async () => {
-                        try {
-                            const response = await axios.put(`http://localhost:8080/api/v1/updateTeacherStatus/${params.row._id}`);
-                            //console.log(response.data); // Handle success response
-                            message.success("Teacher Approved Successfully ! He Is Now Verified", 4)
-                            setTimeout(() => {
-                                window.location.reload(); // Reloads the current page
-                            }, 4000);
-                            // window.location.reload()
-                        } catch (error) {
-                            console.error(error); // Handle error response
-                            message.error("Error Approving Teacher", 4)
+                        async () => {
+                            try {
+                                const response = await axios.put(`http://localhost:8080/api/v1/updateTeacherStatus/${params.row._id}`);
+                                //console.log(response.data); // Handle success response
+                                message.success("Teacher Approved Successfully ! He Is Now Verified", 4)
+                                setTimeout(() => {
+                                    window.location.reload(); // Reloads the current page
+                                }, 4000);
+                                // window.location.reload()
+                            } catch (error) {
+                                console.error(error); // Handle error response
+                                message.error("Error Approving Teacher", 4)
+                            }
                         }
-                    }
                     } variant="contained" color="success" size="small" >Approve</Button>
                 </Stack>
             ),
@@ -134,7 +135,7 @@ const ManageTeachers = () => {
 
 
 
-    
+
 
     return (
         <>
@@ -143,12 +144,12 @@ const ManageTeachers = () => {
                 {/* Begin page */}
                 <div className="wrapper">
                     {/* ========== Topbar Start ========== */}
-                   
-                     <Topbar />
-                   
+
+                    <Topbar />
+
                     {/* ========== Topbar End ========== */}
                     {/* ========== Left Sidebar Start ========== */}
-                   <Sidebar />
+                    <Sidebar />
                     {/* ========== Left Sidebar End ========== */}
                     {/* ============================================================== */}
                     {/* Start Page Content Here */}
