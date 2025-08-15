@@ -39,11 +39,11 @@ const TeacherSchema = new mongoose.Schema({
     },
     tprofile: {
         type: String,
-        required:[true, 'Please provide a City']
+        required:[true, 'Please provide a profile image']
     },
     tdesc: {
         type: String,
-        required:[true, 'Please provide a City']
+        required:[true, 'Please provide a desc']
     }
 },
     { timestamps: true }

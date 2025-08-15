@@ -1,16 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { message } from 'antd'
-import { useNavigate } from 'react-router-dom'
+
+
 import { DataGrid } from '@mui/x-data-grid';
 
 import Topbar from './Topbar';
 import Sidebar2 from './Sidebar2';
+import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 const TeacherDashboard = () => {
 
 
-  const Navigate = useNavigate();
 
-  const columns = [
+
+  interface StudentRow {
+    id: number;
+    name: string;
+    grade: string;
+    attendance: number;
+    status: string;
+  }
+
+
+  const columns: GridColDef<StudentRow>[] = [
     { field: 'id', headerName: 'ID', width: 70 },
     { field: 'name', headerName: 'Name', width: 200 },
     { field: 'grade', headerName: 'Grade', width: 130 },
@@ -19,7 +28,7 @@ const TeacherDashboard = () => {
       field: 'status',
       headerName: 'Status',
       width: 130,
-      renderCell: (params) => (
+      renderCell: (params: GridRenderCellParams<StudentRow>) => (
         <span style={{ color: params.value === 'Good' ? 'green' : 'red' }}>
           {params.value}
         </span>
@@ -144,7 +153,12 @@ const TeacherDashboard = () => {
                     <DataGrid
                       rows={rows}
                       columns={columns}
-                      pageSize={5}
+                      pageSizeOptions={[5]}
+                      initialState={{
+                        pagination: {
+                          paginationModel: { pageSize: 5, page: 0 },
+                        },
+                      }}
                       checkboxSelection
                     />
                   </div>

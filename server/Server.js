@@ -18,8 +18,7 @@ const app = express();
 app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());    
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-
+app.use('/uploads', express.static(path.join(__dirname, 'Controllers', 'uploads')));
 //user routes
 app.use('/api/v1/users', require('./Routes/UserRoutes'));
 
@@ -80,7 +79,7 @@ app.use('/api/v1/course/Admin/MyProfile',require('./Routes/TeacherAdminProfileRo
 app.use('/api/v1/course/UpdateCourseApprovalStatus',require('./Routes/CourseApprovalUpdateStatus'));
 
 //course details
-app.use('/api/v1/course/courseDetails',require('./Routes/CourseDetailsRoutes'))
+app.use('/api/v1/course/',require('./Routes/CourseDetailsRoutes'))
 
 // publish course content
 app.use('/api/v1/course',require('./Routes/CourseContentRoutes'))
@@ -103,17 +102,27 @@ app.use('/api/v1/course/courseContentDetails',require('./Routes/CourseContentDet
 app.use('/api/v1/course/UpdateCourseContent',require('./Routes/CourseContentUpdateRoutes'));
 
 
+//exam routes
+app.use('/api/v1/exam',require('./Routes/ExamRoutes'));
 
 
 
+
+// assignmment routes
+app.use('/api/v1/assignmments',require('./Routes/Asignmment.routes'));
     
+//jobs routes
+
+app.use('/api/v1/jobs',require('./Routes/jobsRoutes'));
+
+//jobs categoriesroutes.js
+app.use('/api/v1/jobs/categories',require('./Routes/jobcategoryroutes'));
+
+//booksroutes
+app.use('/api/v1/books', require('./Routes/booksroutes.js'));
 
 
-
-
-
-
-
+app.use("/api/v1/live-sessions", require("./Routes/LiveSessionsRoutes.js"));
 
 
 

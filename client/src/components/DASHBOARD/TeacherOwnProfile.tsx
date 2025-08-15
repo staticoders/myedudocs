@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { message } from 'antd'
-import { useNavigate } from 'react-router-dom'
+import  { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Topbar from './Topbar';
 import Sidebar2 from './Sidebar2';
@@ -8,9 +6,9 @@ import url from '../../url';
 const TeacherOwnProfile = () => {
 
 
-  const Navigate = useNavigate();
 
   interface User {
+    _id?: string;
     name?: string;
     aname?: string;
     tname?: string;
@@ -20,11 +18,16 @@ const TeacherOwnProfile = () => {
     tspecialization: String;
     texp: String;
     tcity?: string;
+    tprofile?: string;
+    updatedAt?: string;
   }
 
   // get Specificuser data from backend 
   const { id } = useParams()
-  const [teacher, setTeacher] = useState<User>({})
+  const [teacher, setTeacher] = useState<User>({
+    tspecialization: '',
+    texp: ''
+  })
 
   useEffect(() => {
     fetch(`${url}/Teacher/MyProfile/${id}`)
@@ -124,7 +127,7 @@ const TeacherOwnProfile = () => {
                             <ul className="list-group list-group-flush">
                               <li className="list-group-item"><strong>Email:</strong> {teacher.temail}</li>
                               <li className="list-group-item"><strong>Phone:</strong> {teacher.tphn}</li>
-                              <li className="list-group-item"><strong>Member Since:</strong> {new Date(teacher.updatedAt).toLocaleDateString()}</li>
+                              <li className="list-group-item"><strong>Member Since:</strong> {teacher.updatedAt ? new Date(teacher.updatedAt).toLocaleDateString() : 'N/A'}</li>
                               <li className="list-group-item"><strong>Experience:</strong> {teacher.texp}</li>
                               <li className="list-group-item"><strong>Verification Status:</strong> {teacher.Status}</li>
                             </ul>

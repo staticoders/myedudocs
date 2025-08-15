@@ -12,16 +12,39 @@ export default function CourseDetailsArea() {
 
 
 
-  const [coursesDetails, setCoursesDetails] = useState({});
+  interface StudyMaterial {
+    filename: string;
+    filepath: string;
+    _id?: string;
+  }
+
+  interface CourseDetails {
+    cinstructor?: string;
+    c_category?: string;
+    updatedAt?: string;
+    cname?: string;
+    cdur?: string;
+    clesson?: string;
+    cskill_level?: string;
+    clanguage?: string;
+    cvdolink?: string;
+    cdesc?: string;
+    cimage?: string;
+    study_materials?: StudyMaterial[];
+    // Add other properties as needed
+  }
+
+  const [coursesDetails, setCoursesDetails] = useState<CourseDetails>({});
   const [videoDetails, setVideoDetails] = useState('');
   const { id } = useParams();
 
   const url = `${uri}/course/courseDetails/${id}`;
 
   // Function to extract the video ID and start time part from the YouTube URL
-  const extractVideoLinkPart = (url) => {
-    const regex = /https:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)&t=(\d+)s/;
-    const match = url.match(regex);
+
+  const extractVideoLinkPart = (url: string): string => {
+    const regex: RegExp = /https:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)&t=(\d+)s/;
+    const match: RegExpMatchArray | null = url.match(regex);
 
     if (match) {
       return `${match[1]}?start=${match[2]}`;
@@ -44,20 +67,20 @@ export default function CourseDetailsArea() {
         console.error("Error fetching Courses:", error);
       });
   }, [url]); // Fetch when `url` or `id` changes
-
-console.log(videoDetails);
+  const BASE_URL = "https://api.myedudocs.in"; // Or your backend URL
+  console.log(videoDetails);
   return (
     <>
       <section className="courses-details section-padding">
         <div className="container">
           <div className="row">
             <div className="col-xl-8 wow fadeIn">
-<ReactPlayer
-          url={`https://www.youtube.com/watch?v=${videoDetails}`}
-          width="100%"
-          height="500px"
-          controls={true}
-        />
+              <ReactPlayer
+                url={`https://www.youtube.com/watch?v=${videoDetails}`}
+                width="100%"
+                height="500px"
+                controls={true}
+              />
               <div className="scourse_meta">
                 <div className="smeta">
                   <img src="https://img.freepik.com/premium-photo/happy-man-ai-generated-portrait-user-profile_1119669-1.jpg?w=826" alt="author" />
@@ -67,19 +90,26 @@ console.log(videoDetails);
                       <a href="#">{coursesDetails.cinstructor}</a>
                     </p>
                   </div>
+                  
                 </div>
 
                 <div className="smeta">
                   <span>Category:</span>
                   <p>
-                  {coursesDetails.c_category}
+                    {coursesDetails.c_category}
                   </p>
                 </div>
 
                 <div className="smeta">
                   <span>Last Update:</span>
                   <p>
-                  {coursesDetails.updatedAt}
+                    {coursesDetails.updatedAt
+                      ? new Date(coursesDetails.updatedAt).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                      })
+                      : ''}
                   </p>
 
                 </div>
@@ -111,34 +141,29 @@ console.log(videoDetails);
                   {/* <button className="nav-link" id="nav-curriculum-tab" data-bs-toggle="tab" data-bs-target="#nav-curriculum" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Curriculum</button> */}
                   <button className="nav-link" id="nav-review-tab" data-bs-toggle="tab" data-bs-target="#nav-review" type="button" role="tab" aria-controls="nav-review" aria-selected="false">Review</button>
                   <button className="nav-link" id="nav-instructor-tab" data-bs-toggle="tab" data-bs-target="#nav-instructor" type="button" role="tab" aria-controls="nav-disabled" aria-selected="false">Instructor</button>
+                   <button className="nav-link" id="nav-study_materials-tab" data-bs-toggle="tab" data-bs-target="#nav-study_materials" type="button" role="tab" aria-controls="nav-disabled" aria-selected="false">Study Materials</button>
                 </div>
               </nav>
 
               <div className="tab-content" id="nav-tabContent">
                 <div className="tab-pane fade show active" id="nav-overview" role="tabpanel" aria-labelledby="nav-overview-tab" tabIndex={0}>
                   <p>
-                  {coursesDetails.cinstructor}
+                    {coursesDetails.cinstructor}
                   </p>
 
                   <div className="row pt-2">
                     <div className="col-xl-6 align-self-center">
-                      <img src="assets/img/courses/cd2.jpg" className="pb-3" alt="image" />
+
+                      <img src={`https://api.myedudocs.in${coursesDetails.cimage}`} className="pb-3" alt="image" />
                     </div>
 
-                    <div className="col-xl-6 align-self-center">
-                      <h3>Why you want to learn PHP ?</h3>
-                      <ul>
-                        <li>Neque sodales ut etiam sit auctor</li>
-                        <li>Tristique nulla aliquet enim urna.</li>
-                        <li>Nam libero justo laoreet sit amet..</li>
-                        <li>Tempus imperdiet nulla malesuada .</li>
-                        <li>Perspiciatis unde omnis iste natus.</li>
-                        <li>consequat duis aute reprehenderit .</li>
-                        <li>Suspendisse ultrices gravida Risus. </li>
-                      </ul>
+                    <div className="col-xl-12 align-self-center">
+                      <p>{coursesDetails.cdesc}</p>
                     </div>
                   </div>
                 </div>
+
+                
 
                 {/* <div className="tab-pane fade" id="nav-curriculum" role="tabpanel" aria-labelledby="nav-curriculum-tab" tabIndex={0}>
                   <div className="cd_curriculum">
@@ -341,11 +366,58 @@ console.log(videoDetails);
                         <div className="cdin_meta_item"><i className='bx bxs-folder-open'></i> 32 Courses</div>
                       </div>
                     </div>
+
+                    
                   </div>
                 </div>
+
+                    <div className="tab-pane fade" id="nav-study_materials" role="tabpanel" aria-labelledby="nav-study_materials-tab" tabIndex={0}>
+                    {/* Render study materials if available */}
+                {coursesDetails.study_materials?.map((material) => {
+                  const { filename, filepath } = material || {};
+                  if (typeof filepath !== "string") return null;
+
+                  const fileExt = filename.split('.').pop()?.toLowerCase();
+                  const fileUrl = `${BASE_URL}${filepath.replace(/\\/g, '/')}`;
+
+                  // Render based on extension
+                  if (fileExt === 'pdf') {
+                    return (
+                      <iframe
+                        key={material._id}
+                        src={fileUrl}
+                        width="100%"
+                        height="500px"
+                        title={filename}
+                      />
+                    );
+                  } else if (['ppt', 'pptx'].includes(fileExt || '')) {
+                    const viewerUrl = `https://docs.google.com/gview?url=${encodeURIComponent(fileUrl)}&embedded=true`;
+                    return (
+                      <iframe
+                        key={material._id}
+                        src={viewerUrl}
+                        width="100%"
+                        height="500px"
+                        title={filename}
+                      />
+                    );
+                  } else {
+                    return (
+                      <a key={material._id} href={fileUrl} target="_blank" rel="noreferrer">
+                        Download {filename}
+                      </a>
+                    );
+                  }
+                })}
+                </div>
+
+                
               </div>
 
             </div>
+
+            
 
             <div className="col-xl-4 wow fadeIn">
               <div className="course-sidebar">
@@ -367,7 +439,7 @@ console.log(videoDetails);
                     </span>
 
                     <span className="cside-value">
-                     { coursesDetails.clesson}
+                      {coursesDetails.clesson}
                     </span>
                   </li>
 
@@ -387,7 +459,7 @@ console.log(videoDetails);
                     </span>
 
                     <span className="cside-value">
-                    { coursesDetails.cdur} Hours
+                      {coursesDetails.cdur} Hours
                     </span>
                   </li>
 
@@ -397,7 +469,7 @@ console.log(videoDetails);
                     </span>
 
                     <span className="cside-value">
-                    {coursesDetails.cskill_level}
+                      {coursesDetails.cskill_level}
                     </span>
                   </li>
 
@@ -412,9 +484,7 @@ console.log(videoDetails);
                   </li>
                 </ul>
 
-                <div className="cd_price">
-                 <span> {coursesDetails.clanguage} </span>
-                </div>
+             
 
                 <div className="text-center">
                   <a href="#" className="bg_btn bt">Buy Course</a>

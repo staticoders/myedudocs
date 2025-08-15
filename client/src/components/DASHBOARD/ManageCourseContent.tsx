@@ -1,13 +1,22 @@
 import { useEffect, useState } from 'react';
-import { message } from 'antd'
+import { Table,
+  Tooltip,
+  Input,
+  Modal,
+  message,
+  Button,
+  Tag,
+  Space,} from 'antd'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
-import { DataGrid } from "@mui/x-data-grid";
-import { Button, Stack } from "@mui/material";
+import { SearchOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
+import { Stack } from "@mui/material";
 import Sidebar from './Sidebar';
 import Topbar from './Topbar';
 import Sidebar2 from './Sidebar2';
 import url from '../../url';
+
+const { confirm } = Modal;
 
 const ManageCoursesContent = () => {
 
@@ -35,108 +44,164 @@ const ManageCoursesContent = () => {
         }
     }, [Navigate])
 
-    // all Users 
-    interface UsersData {
-        userCount?: number;
-    }
 
-    const [courseContent, setcourseContent] = useState<UsersData>({});
+const [courseContent, setCourseContent] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [searchText, setSearchText] = useState("");
 
-    useEffect(() => {
-        fetch(`${url}/course/allCourseContent`)
-            .then((response) => response.json())
-            .then((data) => {
-                setcourseContent(data.result);
-            })
-            .catch((error) => {
-                console.error("Error fetching Courses:", error);
+  useEffect(() => {
+    fetch(`${url}/course/allCourseContent`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data.result)) {
+          setCourseContent(data.result);
+        } else {
+          console.error("Result is not array");
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Fetch error:", err);
+        setLoading(false);
+      });
+  }, []);
 
-            });
-    }, []);
+  const handleDelete = (id) => {
+    confirm({
+      title: "Are you sure you want to delete this content?",
+      icon: <ExclamationCircleOutlined />,
+      content: "This action cannot be undone.",
+      okText: "Yes, Delete",
+      okType: "danger",
+      cancelText: "Cancel",
+      onOk: async () => {
+        try {
+          await axios.delete(`${url}/course/deleteCourseContent/${id}`);
+          message.success("Deleted successfully", 4);
+          setCourseContent((prev) => prev.filter((item) => item._id !== id));
+        } catch (err) {
+          console.error(err);
+          message.error("Error deleting content", 4);
+        }
+      },
+    });
+  };
 
+  const handleApprove = (id) => {
+    confirm({
+      title: "Approve this course content?",
+      icon: <ExclamationCircleOutlined />,
+      okText: "Yes, Approve",
+      okType: "primary",
+      cancelText: "Cancel",
+      onOk: async () => {
+        try {
+          await axios.put(`${url}/course/updateStatus/${id}`);
+          message.success("Content approved successfully", 4);
+          setCourseContent((prev) =>
+            prev.map((item) =>
+              item._id === id ? { ...item, approved: true } : item
+            )
+          );
+        } catch (err) {
+          console.error(err);
+          message.error("Error approving content", 4);
+        }
+      },
+    });
+  };
 
-    var link = null;
-    if ("tname" in loginUser) {
-        link = <Sidebar2 />;
-    }
-    if ("aname" in loginUser) {
-        link = <Sidebar />;
-    }
+  const filteredData = courseContent.filter(
+    (item) =>
+      item.content_subject.toLowerCase().includes(searchText.toLowerCase()) ||
+      item.content_category.toLowerCase().includes(searchText.toLowerCase()) ||
+      item.author.toLowerCase().includes(searchText.toLowerCase())
+  );
 
+  const columns = [
+    {
+      title: "Course ID",
+      dataIndex: "_id",
+      key: "_id",
+      width: 180,
+      ellipsis: true,
+    },
+    {
+      title: "Subject",
+      dataIndex: "content_subject",
+      key: "content_subject",
+      width: 120,
+    },
+    {
+      title: "Category",
+      dataIndex: "content_category",
+      key: "content_category",
+      width: 120,
+    },
+    {
+      title: "Content",
+      dataIndex: "content",
+      key: "content",
+      width: 300,
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (content) => (
+        <Tooltip placement="topLeft" title={content}>
+          {content}
+        </Tooltip>
+      ),
+    },
+    {
+      title: "Author",
+      dataIndex: "author",
+      key: "author",
+      width: 150,
+    },
+    {
+      title: "Published",
+      dataIndex: "approved",
+      key: "approved",
+      width: 100,
+      render: (approved) =>
+        approved ? <Tag color="green">Yes</Tag> : <Tag color="red">No</Tag>,
+    },
+    {
+      title: "Actions",
+      key: "actions",
+      fixed: "right",
+      width: 260,
+      render: (_, record) => (
+        <Space wrap>
+          <a
+            href={`/content-details/${record._id}`}
+            className="btn btn-primary text-white"
+          >
+            View
+          </a>
 
+          {loginUser?.tname && (
+            <a
+              href={`/updateCourse-content/${record._id}`}
+              className="btn btn-info text-white"
+            >
+              Edit
+            </a>
+          )}
 
+          <Button danger onClick={() => handleDelete(record._id)}>
+            Delete
+          </Button>
 
-    const columns = [
-        { field: "_id", headerName: "Course ID", width: 200 },
-        { field: "content_subject", headerName: "Subject", width: 200 },
-        { field: "content_category", headerName: "Category", width: 200 },
-        { field: "content", headerName: "Content", width: 200 },
-        { field: "author", headerName: "Author", width: 200 },
-        { field: "approved", headerName: "Published Status", width: 200 },
-        {
-            field: "actions",
-            headerName: "Actions",
-            width: 300,
-            renderCell: (params: any) => (
-                <Stack direction="row" spacing={1}>
-                    <a className='btn btn-primary' href={`/content-details/${params.row._id}`} style={{ textDecoration: 'none', color: 'primary' }}>View</a>
-                    {"tname" in loginUser && (
-                        <a className="btn btn-info" href={`/updateCourse-content/${params.row._id}`} style={{ textDecoration: 'none', color: 'primary' }}>Edit</a>
-                    )}
-                    <Button onClick={
-                        async () => {
-                            try {
-                                const response = await axios.delete(`http://localhost:8080/api/v1/course/deleteCourseContent/${params.row._id}`);
-                                // console.log(response.data); // Handle success response
-                                message.success("Content Deleted Successfully", 4)
-                                // window.location.reload()
-                                setTimeout(() => {
-                                    window.location.reload(); // Reloads the current page
-                                }, 4000);
-                            } catch (error) {
-                                console.error(error); // Handle error response
-                                message.error("Error Deleting Content", 4)
-                            }
-                        }
-                    } variant="contained" color="error" size="small" >Delete</Button>
-                    {"aname" in loginUser && (
-                        <Button
-                            onClick={
-                                async () => {
-                                    try {
-                                        const response = await axios.put(`http://localhost:8080/api/v1/course/updateStatus/${params.row._id}`);
-                                        // console.log(response.data); // Handle success response
-                                        message.success("Course Content Approved Successfully", 4)
-                                        // window.location.reload()
-                                        setTimeout(() => {
-                                            window.location.reload(); // Reloads the current page
-                                        }, 4000);
-                                    } catch (error) {
-                                        console.error(error); // Handle error response
-                                        message.error("Error occured in Course Content Approved ", 4)
-                                    }
-                                }
-                            }
-                            variant="contained"
-                            color="success"
-                            size="small"
-                        >
-                            Approve
-                        </Button>
-                    )}
-                </Stack>
-            ),
-        },
-
-    ];
-
-
-
-
-
-
-
-
+          {loginUser?.aname && (
+            <Button type="primary" onClick={() => handleApprove(record._id)}>
+              Approve
+            </Button>
+          )}
+        </Space>
+      ),
+    },
+  ];
 
 
 
@@ -176,7 +241,7 @@ const ManageCoursesContent = () => {
                                             <div className="page-title-right">
 
                                             </div>
-                                            <a className="btn btn-outline-success mt-3" href='/add-courses'>Add Course</a>
+                                            <a className="btn btn-outline-success mt-3" href='/publish-course-content'>Publish Contents</a>
 
                                         </div>
                                     </div>
@@ -189,21 +254,32 @@ const ManageCoursesContent = () => {
                         </div>
                         <div className="container">
                             <div className="row">
-                                <div className="col-md-12">
-                                    <div style={{ height: 400, width: "100%" }}>
-                                        <DataGrid
-                                            rows={Array.isArray(courseContent) ? courseContent.map((content, index) => ({ ...content, id: index + 1 })) : []}
-                                            columns={columns}
-                                            initialState={{
-                                                pagination: {
-                                                    paginationModel: { pageSize: 5 },
-                                                },
-                                            }}
-                                            pagination
-                                            pageSizeOptions={[5, 10, 20]}
-                                        />
-                                    </div>
-                                </div>
+                             <div className="col-md-12">
+      <div className="p-4 bg-white rounded shadow">
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="text-lg font-semibold text-gray-800">
+            Course Content List
+          </h2>
+          <Input
+            placeholder="Search by subject, category, author..."
+            prefix={<SearchOutlined />}
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            className="w-96"
+            allowClear
+          />
+        </div>
+        <Table
+          rowKey="_id"
+          columns={columns}
+          dataSource={filteredData}
+          loading={loading}
+          bordered
+          pagination={{ pageSize: 5 }}
+          scroll={{ x: 1300 }}
+        />
+      </div>
+    </div>
                             </div>
                         </div>
                         {/* content */}

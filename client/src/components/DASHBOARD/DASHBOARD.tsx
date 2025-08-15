@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { message } from 'antd'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios';
 import Sidebar from './Sidebar';
 import Topbar from './Topbar';
 import url from '../../url';
@@ -28,7 +27,7 @@ const Dashboard = () => {
   }, [])
 
 
-
+   console.log(loginUser);
 
   // preventing admin to access dashboard if they are not looged in 
   useEffect(() => {
@@ -40,13 +39,16 @@ const Dashboard = () => {
 
 
   // all users 
-  const [users, setUsers] = useState([]);
+  interface StudentsData {
+    userCount: number;
+  }
+  const [users, setUsers] = useState<StudentsData>({ userCount: 0 });
   // const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch(`${url}/count/getAllStudents`) // Update with your backend URL
       .then((response) => response.json())
-      .then((data: TeachersData) => {
+      .then((data: StudentsData) => {
         setUsers(data);
         // setLoading(false);
       })

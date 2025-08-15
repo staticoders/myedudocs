@@ -1,7 +1,8 @@
-import React from 'react';
-import Dashboard from './DASHBOARD.js'
+
+import Dashboard from './DASHBOARD';
 import './dashboard.css'
-const DashboardMain = () => {
+
+const DashboardIndex = () => {
     return (
         <div>
             <Dashboard/>
@@ -9,4 +10,4 @@ const DashboardMain = () => {
     );
 }
 
-export default DashboardMain;
+export default DashboardIndex;

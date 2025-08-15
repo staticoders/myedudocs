@@ -36,6 +36,19 @@ import PublishCourseContentIndex from "./components/DASHBOARD/PublishCourseConte
 import ManageCourseContentIndex from "./components/DASHBOARD/ManageCourseContentIndex";
 import CourseContentDetailsIndex from "./components/DASHBOARD/CourseContentDetailsIndex";
 import UpdateCourseContentIndex from "./components/DASHBOARD/UpdateCourseContentIndex";
+import CreateAssignmmentIndex from "./components/DASHBOARD/CreateAssignmentIndex";
+import ManageAssignmentIndex from "./components/DASHBOARD/ManageAssignmmentsIndex";
+import UploadAssignmentIndex from "./components/DASHBOARD/UploadAssignmentIndex";
+import ExamCreation from "./components/DASHBOARD/ExamCreation";
+import ExamManagementIndex from "./components/DASHBOARD/ExamManagementIndex";
+import JobsList from "./components/DASHBOARD/JobListings";
+import JobCategories from "./components/DASHBOARD/JobsCategories";
+import AddBooks from "./components/DASHBOARD/AddBooks";
+import BookCateGoriesManager from "./components/DASHBOARD/AddBooksCategories";
+import StudentExamList from "./components/DASHBOARD/studentExamsList";
+import StudentOngoingExam from "./components/DASHBOARD/StudentOngoingExams";
+import AddManageLiveSessions from "./components/DASHBOARD/Livesessions";
+import StudentsLiveSessions from "./components/DASHBOARD/StudentsLiveSessions";
 
 const router = createBrowserRouter([
   { path: "/", element: <HomeOne /> },
@@ -48,10 +61,16 @@ const router = createBrowserRouter([
   { path: "/teacherProfile/:id", element: <TeacherProfileIndex /> },
   { path: "/teacher-dashboard/teacher/MyProfile/:id", element: <TeacherOwnProfileIndex /> },
   { path: "/add-courses", element: <AddCourseIndex /> },
+  { path: "/exams", element: <ExamCreation /> },
+  { path: "/manage-exams/:id", element: <ExamManagementIndex /> },
   { path: "/publish-course-content", element: <PublishCourseContentIndex /> },
   { path: "/manage-courses", element: <ManageCoursesIndex /> },
   { path: "/about", element: <About /> },
   { path: "/courses", element: <Courses /> },
+  { path: "/jobs", element: <JobsList /> },
+  { path: "/job-categories", element: <JobCategories /> },
+  { path: "/books", element: <AddBooks /> },
+  { path: "/book-categories", element: <BookCateGoriesManager /> },
   { path: "/course-details/:id", element: <CourseDetails /> },
   { path: "/teacher/edit-my-profile/:id", element: <EditTeacherProfileIndex /> },
   { path: "/CourseDetails/:id", element: < SpecificCourseDetails /> },
@@ -59,6 +78,9 @@ const router = createBrowserRouter([
   { path: "/updateCourse/:id", element: <UpdateCourseIndex /> },
   { path: "/manage-courses-content", element: <ManageCourseContentIndex /> },
   { path: "/content-details/:id", element: <CourseContentDetailsIndex /> },
+  { path: "/assignments", element: <CreateAssignmmentIndex /> },
+  { path: "/manage-assignments/:teacherId", element: <ManageAssignmentIndex /> },
+  { path: "/upload-assignment/:assignmentId", element: <UploadAssignmentIndex /> },
   { path: "/grid-blog", element: <GridBlog /> },
   { path: "/standard-blog", element: <StandardBlog /> },
   { path: "/blog-details", element: <BlogDetails /> },
@@ -72,6 +94,10 @@ const router = createBrowserRouter([
   { path: "/admin-login", element: <AdminLoginIndex/> },
   { path: "/instructors", element: <Instructors /> },
   { path: "/contact", element: <Contact /> },
+  { path: "/student/exams", element: <StudentExamList /> },
+  { path: "/student/exams/ongoing/:examId", element: <StudentOngoingExam /> },
+  { path: "/live-sessions", element: <AddManageLiveSessions /> },
+  { path: "/students/live-sessions", element: <StudentsLiveSessions /> },
   { path: "*", element: <Error /> },
 
 ]);

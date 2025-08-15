@@ -2,14 +2,13 @@ import { useEffect, useState } from 'react'
 import NavMenu from './NavMenu'
 import MobileMenu from './MobileMenu'
 import { message } from 'antd'
-import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import './header.css'
 
 
 export default function HeaderOne() {
 
-  const Navigate = useNavigate()
+
   const [open, setOpen] = useState(false)
   // const [cat, setCat] = useState(false)
   const [opneMenu, setOpneMenu] = useState(false)
@@ -54,47 +53,81 @@ export default function HeaderOne() {
 
   //conditional rendering
 
-  const conditionalButton = () => {
-    if (localStorage.getItem('edudocs')) {
-      return (
+const conditionalButton = () => {
+  const isLoggedIn = localStorage.getItem("edudocs");
 
-        <div className="dropdown">
-          <button className="dropdown-button">
-            <span>Welcome <b> {loginUser.name || loginUser.tname || loginUser.aname} </b></span>
-            <span className="icon">▼</span>
-          </button>
-          <div className="dropdown-content">
-            <a href={link}>📊 My Dashboard</a>
-            <a href="#logout" onClick={logoutHandler}>🚪 Logout</a>
-          </div>
-        </div>
+  return (
+    <div className="dropdown">
+      <button
+        className="btn btn-gradient-primary dropdown-toggle d-flex align-items-center gap-2"
+        type="button"
+        id="dropdownMenuButton"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+        style={{
+          background: "linear-gradient(to right, #6e8efb, #a777e3)",
+          color: "#fff",
+          border: "none",
+          padding: "10px 20px",
+          borderRadius: "30px",
+          fontWeight: "600",
+          boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+        }}
+      >
+        {isLoggedIn ? (
+          <>
+            <i className="bi bi-person-circle"></i>
+            Welcome <b>{loginUser?.name || loginUser?.tname || loginUser?.aname}</b>
+          </>
+        ) : (
+          <>
+            <i className="bi bi-box-arrow-in-right"></i>
+            Login / Register
+          </>
+        )}
+      </button>
 
-
-      )
-    }
-    else {
-      return (
-
-
-        <div className="dropdown">
-          <button className="dropdown-button">
-            <span>Login / Register </span>
-            <span className="icon">▼</span>
-          </button>
-          <div className="dropdown-content">
-            <a href="/admin-login">Login as an Admin</a>
-            <a href="/teacher-login">Login as a Teacher</a>
-            <a href="/student-login">Login as a Student</a>
-
-          </div>
-        </div>
-
-
-
-      )
-    }
-  }
-
+      <ul className="dropdown-menu dropdown-menu-end mt-2" aria-labelledby="dropdownMenuButton">
+        {isLoggedIn ? (
+          <>
+            <li>
+              <a className="dropdown-item d-flex align-items-center gap-2" href={link}>
+                <i className="bi bi-speedometer2 text-primary"></i> My Dashboard
+              </a>
+            </li>
+            <li>
+              <a
+                className="dropdown-item d-flex align-items-center gap-2 text-danger"
+                href="#logout"
+                onClick={logoutHandler}
+              >
+                <i className="bi bi-box-arrow-right"></i> Logout
+              </a>
+            </li>
+          </>
+        ) : (
+          <>
+            <li>
+              <a className="dropdown-item d-flex align-items-center gap-2" href="/admin-login">
+                <i className="bi bi-shield-lock text-info"></i> Admin Login
+              </a>
+            </li>
+            <li>
+              <a className="dropdown-item d-flex align-items-center gap-2" href="/teacher-login">
+                <i className="bi bi-mortarboard text-success"></i> Teacher Login
+              </a>
+            </li>
+            <li>
+              <a className="dropdown-item d-flex align-items-center gap-2" href="/student-login">
+                <i className="bi bi-people text-purple"></i> Student Login
+              </a>
+            </li>
+          </>
+        )}
+      </ul>
+    </div>
+  );
+};
   return (
     <>
       <header id="navigation">

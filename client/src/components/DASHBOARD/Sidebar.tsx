@@ -1,4 +1,4 @@
-import React from 'react';
+
 
 const Sidebar = () => {
     return (
@@ -105,19 +105,21 @@ const Sidebar = () => {
                   </a>
                   <div className="collapse" id="sidebarProjects">
                     <ul className="side-nav-second-level">
-                      <li>
-                        <a href="/create-exams">📝 Create & Schedule Exams</a>
+                      {/* <li>
+                        <a href="/exams">📝 Create & Schedule Exams</a>
                       </li>
                       <li>
                         <a href="/create-exams">📝 Create Exams Category</a>
+                      </li> */}
+                         <li>
+                    <a href={`/manage-exams`}>📚 Manage All Exams</a>
                       </li>
-                      <li>
-                        <a href="/create-exams">📚 Manage All Exams</a>
+                       <li>
+                        <a href={`/manage-assignments`}>📝 Manage All Assignments </a>
                       </li>
-                      <li>
-                        <a href="/students-reports">📊 Exam Reports </a>
+   <li>
+                        <a href={`/manage-assignments`}>📝 Manage All Test Series </a>
                       </li>
-
                     </ul>
                   </div>
                 </li>
@@ -177,17 +179,13 @@ const Sidebar = () => {
                   <div className="collapse" id="sidebarExtendedUI">
                     <ul className="side-nav-second-level">
                       <li>
-                        <a href="/post-job">📌 Post a Job</a>
+                        <a href="/jobs">📌 Post a Job</a>
                       </li>
+                     
                       <li>
-                        <a href="/manage-jobs"> 📂 Manage All Jobs</a>
+                        <a href="/job-categories">📌 Create Job Categories</a>
                       </li>
-                      <li>
-                        <a href="/add-job-categories">📌 Create Job Categories</a>
-                      </li>
-                      <li>
-                        <a href="/create-job-subcategories">📌 Create Job Subcategories</a>
-                      </li>
+                     
 
                     </ul>
                   </div>
@@ -246,29 +244,12 @@ const Sidebar = () => {
                   <div className="collapse" id="sidebarForms">
                     <ul className="side-nav-second-level">
                       <li>
-                        <a href="/uploads-ebooks">📤 Upload Ebooks</a>
+                        <a href="/books">📤 Books</a>
                       </li>
                       <li>
-                        <a href="/uploads-pdfs">📤 Upload Pdfs</a>
+                        <a href="/book-categories">📤 Books Categories</a>
                       </li>
-                      <li>
-                        <a href="/uploads-dpps">📤 Upload Dpps</a>
-                      </li>
-                      <li>
-                        <a href="/uploads-dpps">📤 Upload Complementary Test Series</a>
-                      </li>
-                      <li>
-                        <a href="/manage-ebooks">📄 Manage All Ebooks</a>
-                      </li>
-                      <li>
-                        <a href="/manage-pdfs">📄 Manage All Pdfs</a>
-                      </li>
-                      <li>
-                        <a href="/manage-dpps">📄 Manage All Dpps</a>
-                      </li>
-                      <li>
-                        <a href="/uploads-dpps">📄 Manage Test Series</a>
-                      </li>
+                      
                     </ul>
                   </div>
                 </li>

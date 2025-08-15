@@ -7,7 +7,7 @@ import url from '../../../url';
 export default function CoursesHomeOne() {
 
 
-  const [courses, setCourses] = useState({});
+  const [courses, setCourses] = useState<any[]>([]);
 
   useEffect(() => {
     fetch(`${url}/course/allCourses`)
@@ -69,7 +69,7 @@ export default function CoursesHomeOne() {
                     courses.map((course) => (
                       <SwiperSlide className="single-course">
                         <div className="course-img">
-                          <img src={`/public/${course.cimage}`} alt="course image" height={"250px"} />
+                          <img src={`https://api.myedudocs.in${course.cimage}`} alt="course image" height={"250px"} />
                           <span className="cprice"><i className="fas fa-rupee-sign"></i>{course.cprice}</span>
                         </div>
 

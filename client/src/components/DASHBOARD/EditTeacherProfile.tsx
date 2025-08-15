@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { message } from 'antd'
-import {Link, useNavigate, useParams } from 'react-router-dom'
-import { DataGrid } from '@mui/x-data-grid';
+import {Link, useParams } from 'react-router-dom'
+
 
 
 
@@ -9,12 +9,34 @@ import axios from "axios";
 import Topbar from './Topbar';
 import Sidebar2 from './Sidebar2';
 import url from '../../url';
+interface Teacher {
+  tname: string;
+  temail: string;
+  tphn: string;
+  tpassword: string;
+  tspecialization: string;
+  texp: string;
+  tcity: string;
+  tprofile?: File | string;
+  tdesc: string;
+}
+
 const EditTeacherProfile = () => {
 
 
-  const Navigate = useNavigate();
+  // const Navigate = useNavigate();
 
-  const [teacher, setTeacher] = useState({})
+  const [teacher, setTeacher] = useState<Teacher>({
+    tname: '',
+    temail: '',
+    tphn: '',
+    tpassword: '',
+    tspecialization: '',
+    texp: '',
+    tcity: '',
+    tprofile: '',
+    tdesc: ''
+  });
   const {id}=useParams();
   useEffect(() => {
       fetch(`${url}/course/Teacher/MyProfile/${id}`)

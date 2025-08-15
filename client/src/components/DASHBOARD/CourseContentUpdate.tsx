@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { message } from 'antd'
+import { Input, Button, Typography, Card ,message} from "antd";
 import { useParams } from 'react-router-dom'
 import axios from 'axios';
 import Sidebar from './Sidebar';
@@ -7,6 +7,8 @@ import Topbar from './Topbar';
 import Sidebar2 from './Sidebar2';
 import url from '../../url';
 
+const { TextArea } = Input;
+const { Title } = Typography;
 
 const UpdateCourseContent = () => {
 
@@ -43,7 +45,9 @@ const UpdateCourseContent = () => {
     console.log(Courses);
 
     // update course function
-    const handleChange = (e) => {
+    interface HandleChangeEvent extends React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> {}
+
+    const handleChange = (e: HandleChangeEvent) => {
         const { name, value } = e.target;
         setCourses((prev) => ({
             ...prev,
@@ -51,7 +55,9 @@ const UpdateCourseContent = () => {
         }));
     };
 
-    const UpdateCourseContent = async (e) => {
+    interface UpdateCourseContentEvent extends React.FormEvent<HTMLFormElement> {}
+
+    const UpdateCourseContent = async (e: UpdateCourseContentEvent): Promise<void> => {
         e.preventDefault();
         const formData = new FormData();
 
@@ -60,7 +66,7 @@ const UpdateCourseContent = () => {
         }
 
         try {
-            await axios.put(`${url}/course/UpdateCourseContent/${id.id}`, formData,);
+            await axios.put(`${url}/course/UpdateCourseContent/${id.id}`, formData);
             message.success(" Content Updated Successfully");
             setTimeout(() => {
                 window.location.href = "/manage-courses-content";
@@ -119,31 +125,70 @@ const UpdateCourseContent = () => {
                         <div className="container">
                             <div className="row">
                                 <div className="col-md-12 p-5">
-                                    <form onSubmit={UpdateCourseContent} className="bg-light p-5 shadow-sm rounded">
-                                        <div className="form-group">
-                                            <label htmlFor="content_subject">Content Subject</label>
-                                            <input type="text" placeholder="Subject Of the Content" id="content_subject" className=" form-control" name="content_subject" value={Courses.content_subject}
-                                                onChange={handleChange} required={true} />
-                                        </div>
+                                  <Card
+  title="Update Course Content"
+  bordered={false}
+  className="shadow-sm p-4 bg-white"
+>
+  <form onSubmit={UpdateCourseContent}>
+    <div className="mb-4">
+      <label htmlFor="content_subject" className="form-label fw-semibold">
+        Content Subject
+      </label>
+      <Input
+        id="content_subject"
+        name="content_subject"
+        placeholder="Subject of the Content"
+        value={Courses.content_subject}
+        onChange={handleChange}
+        required
+      />
+    </div>
 
-                                        <div className="form-group">
-                                            <label htmlFor="content_category">Content Category</label>
-                                            <input type="text" placeholder="Category of the Content" id="content_category" className="form-control" name="content_category" value={Courses.content_category}
-                                                onChange={handleChange} required={true} />
-                                        </div>
+    <div className="mb-4">
+      <label htmlFor="content_category" className="form-label fw-semibold">
+        Content Category
+      </label>
+      <Input
+        id="content_category"
+        name="content_category"
+        placeholder="Category of the Content"
+        value={Courses.content_category}
+        onChange={handleChange}
+        required
+      />
+    </div>
 
-                                        <div className="form-group">
-                                            <label htmlFor="content">Main Content</label>
-                                            <textarea className='form-control' name="content" id="content" value={Courses.content}
-                                                onChange={handleChange} required={true}></textarea>
-                                        </div>
+    <div className="mb-4">
+      <label htmlFor="content" className="form-label fw-semibold">
+        Main Content
+      </label>
+      <TextArea
+        id="content"
+        name="content"
+        rows={6}
+        placeholder="Enter course content here..."
+        value={Courses.content}
+        onChange={handleChange}
+        required
+      />
+    </div>
 
-                                        <input type="hidden" name="author" value={loginUser.tname} />
+    <input type="hidden" name="author" value={loginUser.tname} />
 
-                                        <div className="form-group col-lg-12">
-                                            <button className="bg_btn bt" type="submit" name="submit">Add Now</button>
-                                        </div>
-                                    </form>
+    <div className="text-end">
+      <Button
+        htmlType="submit"
+        type="primary"
+        size="large"
+        className="bg_btn"
+      >
+        Update Content
+      </Button>
+    </div>
+  </form>
+</Card>
+
                                 </div>
                             </div>
                         </div>

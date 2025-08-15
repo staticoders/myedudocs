@@ -1,13 +1,15 @@
-import React from 'react';
+
 
 const Sidebar2 = () => {
+
+  const teacher = JSON.parse(localStorage.getItem("edudocs") || "{}");
     return (
         <div>
                <div className="leftside-menu">
             {/* Brand Logo Light */}
             <a href="index.html" className="logo logo-light">
               <span className="logo-lg">
-                <img src="https://coderthemes.com/hyper/saas/assets/images/logo.png" alt="logo" />
+                {/* <img src="https://coderthemes.com/hyper/saas/assets/images/logo.png" alt="logo" /> */}
               </span>
               <span className="logo-sm">
                 <img src="assets/images/logo-sm.png" alt="small logo" />
@@ -16,10 +18,10 @@ const Sidebar2 = () => {
             {/* Brand Logo Dark */}
             <a href="index.html" className="logo logo-dark">
               <span className="logo-lg">
-                <img src="https://coderthemes.com/hyper/saas/assets/images/logo-dark.png" alt="dark logo" />
+                {/* <img src="https://coderthemes.com/hyper/saas/assets/images/logo-dark.png" alt="dark logo" /> */}
               </span>
               <span className="logo-sm">
-                <img src="https://coderthemes.com/hyper/saas/assets/images/logo-dark-sm.png" alt="small logo" />
+                {/* <img src="https://coderthemes.com/hyper/saas/assets/images/logo-dark-sm.png" alt="small logo" /> */}
               </span>
             </a>
             {/* Sidebar Hover Menu Toggle Button */}
@@ -35,7 +37,7 @@ const Sidebar2 = () => {
               {/* Leftbar User */}
               <div className="leftbar-user">
                 <a href="pages-profile.html">
-                  <img src="https://coderthemes.com/hyper/saas/assets/images/users/avatar-1.jpg" alt="user-image" height={42} className="rounded-circle shadow-sm" />
+                  {/* <img src="https://coderthemes.com/hyper/saas/assets/images/users/avatar-1.jpg" alt="user-image" height={42} className="rounded-circle shadow-sm" /> */}
                   <span className="leftbar-user-name mt-2">Dominic Keller</span>
                 </a>
               </div>
@@ -106,19 +108,20 @@ const Sidebar2 = () => {
                   <div className="collapse" id="sidebarProjects">
                     <ul className="side-nav-second-level">
                       <li>
-                        <a href="/create-exams">📝 Create & Schedule Exam</a>
+                        <a href="/exams">📝 Create Exam</a>
+                      </li>
+                   
+                      <li>
+                    <a href={`/manage-exams/${teacher.id}`}>📚 Manage All Exams</a>
                       </li>
                       <li>
-                        <a href="/create-exams">📝 Create Exams Category</a>
+                        <a href="/assignments">📝 Create Assignments </a>
+                      </li>
+                       <li>
+                        <a href={`/manage-assignments/${teacher.id}`}>📝 Manage Assignments </a>
                       </li>
                       <li>
-                        <a href="/create-exams">📚 Manage All Exams</a>
-                      </li>
-                      <li>
-                        <a href="/students-reports">📝 Create and assign Assignments </a>
-                      </li>
-                      <li>
-                        <a href="/students-reports">📝 Mock Test and Quizs </a>
+                        <a href="/test-series">📝 Test Series </a>
                       </li>
                       <li>
                         <a href="/students-reports">📊 Assesment Reports </a>
@@ -167,17 +170,13 @@ const Sidebar2 = () => {
                   <div className="collapse" id="sidebarExtendedUI">
                     <ul className="side-nav-second-level">
                       <li>
-                        <a href="/post-job">📌 Post a Job</a>
+                        <a href="/jobs">📌 Post a Job</a>
                       </li>
+                     
                       <li>
-                        <a href="/manage-jobs"> 📂 Manage All Jobs</a>
+                        <a href="/job-categories">📌 Create Job Categories</a>
                       </li>
-                      <li>
-                        <a href="/add-job-categories">📌 Create Job Categories</a>
-                      </li>
-                      <li>
-                        <a href="/create-job-subcategories">📌 Create Job Subcategories</a>
-                      </li>
+                   
 
                     </ul>
                   </div>
@@ -192,29 +191,12 @@ const Sidebar2 = () => {
                   <div className="collapse" id="sidebarForms">
                     <ul className="side-nav-second-level">
                       <li>
-                        <a href="/uploads-ebooks">📤 Upload Ebooks</a>
+                        <a href="/books">📤 Books</a>
                       </li>
                       <li>
-                        <a href="/uploads-pdfs">📤 Upload Pdfs</a>
+                        <a href="/book-categories">📤 Books Categories</a>
                       </li>
-                      <li>
-                        <a href="/uploads-dpps">📤 Upload Dpps</a>
-                      </li>
-                      <li>
-                        <a href="/uploads-dpps">📤 Upload Complementary Test Series</a>
-                      </li>
-                      <li>
-                        <a href="/manage-ebooks">📄 Manage All Ebooks</a>
-                      </li>
-                      <li>
-                        <a href="/manage-pdfs">📄 Manage All Pdfs</a>
-                      </li>
-                      <li>
-                        <a href="/manage-dpps">📄 Manage All Dpps</a>
-                      </li>
-                      <li>
-                        <a href="/uploads-dpps">📄 Manage Test Series</a>
-                      </li>
+                      
                     </ul>
                   </div>
                 </li>

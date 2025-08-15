@@ -13,7 +13,7 @@ import FaqHomeTwo from './FaqHomeTwo'
 import ReviewHomeOne from '../home/ReviewHomeOne'
 import BlogHomeOne from '../home/BlogHomeOne'
 import CtaHomeTwo from './CtaHomeTwo' 
-import HeaderTwo from '../../../layouts/headers/HeaderTwo'
+
 import FooterOne from '../../../layouts/footers/FooterOne'
 import ScrollToTop from '../../common/ScrollToTop'
 import ScrollTop from '../../common/ScrollTop'
@@ -23,7 +23,6 @@ export default function HomeTwo() {
   return (
     <>
       <Preloader />
-      <HeaderTwo />
       <HeroHomeTwo />
       <BrandHomeTwo /> 
       <FeatureHomeOne style_2={true} />
@@ -37,7 +36,7 @@ export default function HomeTwo() {
       <ReviewHomeOne />
       <BlogHomeOne />
       <CtaHomeTwo />
-      <FooterOne style_2={true} />
+      <FooterOne />
       <ScrollToTop />
       <ScrollTop />
     </>

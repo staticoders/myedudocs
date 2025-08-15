@@ -4,11 +4,18 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const multer = require("multer");
 const path = require("path");
-
+const fs=require('fs');
 // Multer setup directly inside controller file
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, "C:/Users/rickb/OneDrive/Desktop/EDUDOCS/client/public/uploads");
+      let uploadPath;
+    uploadPath = path.join(__dirname, 'uploads', 'teachers');
+
+      if (!fs.existsSync(uploadPath)) {
+        fs.mkdirSync(uploadPath, { recursive: true });
+      }
+
+      cb(null, uploadPath);
     },
     filename: (req, file, cb) => {
         const safeName = path.basename(file.originalname); // Ensures only the filename

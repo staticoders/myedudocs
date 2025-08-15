@@ -32,7 +32,8 @@ export default function HeroHomeOne() {
 
   
     // all users 
-    const [users, setUsers] = useState([]);
+    type UsersResponse = { userCount: number };
+    const [users, setUsers] = useState<UsersResponse>({ userCount: 0 });
     // const [loading, setLoading] = useState(true);
   
     useEffect(() => {

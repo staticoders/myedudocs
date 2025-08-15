@@ -11,7 +11,7 @@ const UserCount = async (req, res) => {
         res.status(201).json({ message: "Successfully Fetched" ,Users:Users || [],userCount});
 
     } catch (error) {
-        res.status(500).json({ message: "Error Occurred", error: err.message });
+        res.status(500).json({ message: "Error Occurred", error: error.message });
     }
     
 }

@@ -23,6 +23,8 @@ const CourseDetails = () => {
     clanguage: String;
     cprice: Number;
     cdesc: String;
+    c_category: String;
+    
   }
 
 
@@ -39,7 +41,17 @@ const CourseDetails = () => {
 
   // get Specificuser data from backend 
   const { id } = useParams()
-  const [course, setCourse] = useState<User>({})
+  const [course, setCourse] = useState<User>({
+    cname: '',
+    cinstructor: '',
+    cdur: 0,
+    clesson: 0,
+    cskill_level: '',
+    clanguage: '',
+    cprice: 0,
+    cdesc: '',
+    c_category: ''
+  })
 
   useEffect(() => {
     fetch(`${url}/course/courseDetails/${id}`) // Update with your backend URL
@@ -113,7 +125,7 @@ const CourseDetails = () => {
                         </div>
                         <div className="col-md-6 mb-3">
                           <i className="bi bi-collection-play-fill text-success me-2"></i>
-                          <strong>Total Lessons:</strong> {course.clesson}
+                          <strong>Total Lessons:</strong> {course.clesson !== undefined ? Number(course.clesson).toString() : 'N/A'}
                         </div>
                         <div className="col-md-6 mb-3">
                           <i className="bi bi-graph-up-arrow text-danger me-2"></i>
@@ -129,7 +141,7 @@ const CourseDetails = () => {
                         </div>
                         <div className="col-md-6 mb-3">
                           <i className="bi bi-currency-rupee text-success me-2"></i>
-                          <strong>Price:</strong> {course.cprice}
+                          <strong>Price:</strong> {course.cprice !== undefined ? Number(course.cprice).toString() : 'N/A'}
                         </div>
                         <div className="col-md-12 mb-3">
                           <i className="bi bi-card-text text-dark me-2"></i>

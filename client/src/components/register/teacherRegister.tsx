@@ -1,40 +1,45 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-import { message } from 'antd';
-
+import { useEffect, useState } from "react";
+import { message } from "antd";
 import axios from "axios";
-import url from "../../url";
+import url from "../../url"; // Assuming you use a central base URL
 
 export default function TeacherRegistration() {
   const Navigate = useNavigate();
+  const [teacherProfile, setTeacherProfile] = useState<File | null>(null);
+
   const SubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
+
+    // Add profile image manually from state
+    if (teacherProfile) {
+      formData.set("tprofile", teacherProfile);
+    }
+
     try {
       await axios.post(`${url}/teachers/teacherRegister`, formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          "Content-Type": "multipart/form-data",
         },
       });
-      message.success("Teacher Registered Successfully")
+      message.success("Teacher Registered Successfully");
       setTimeout(() => {
         window.location.href = "/";
       }, 2000);
-
     } catch (error) {
-      message.error("Error Encountered !!")
-      console.log(error);
+      message.error("Error Encountered !!");
+      console.error(error);
     }
-  }
+  };
 
-  // Prevent users from registering if they are already logged in
-
+  // Prevent registration if already logged in
   useEffect(() => {
-    if (localStorage.getItem('edudocs')) {
-      message.warning("You are already logged in ! Welcome To MyEdudocs", 5)
-      Navigate('/')
+    if (localStorage.getItem("edudocs")) {
+      message.warning("You are already logged in! Welcome to MyEdudocs", 5);
+      Navigate("/");
     }
-  }, [Navigate])
+  }, [Navigate]);
 
   return (
     <>
@@ -47,24 +52,54 @@ export default function TeacherRegistration() {
                 <form onSubmit={SubmitHandler} encType="multipart/form-data">
                   <div className="form-group">
                     <label htmlFor="fullname">Full Name</label>
-                    <input type="text" placeholder="Enter Full Name" id="fullname" className=" form-control" name="tname" required={true} />
+                    <input
+                      type="text"
+                      placeholder="Enter Full Name"
+                      id="fullname"
+                      className="form-control"
+                      name="tname"
+                      required
+                    />
                   </div>
                   <div className="form-group">
                     <label htmlFor="email-address">Email Address</label>
-                    <input type="email" placeholder="Enter Email Address" id="email-address" className="form-control " name="temail" required={true} />
+                    <input
+                      type="email"
+                      placeholder="Enter Email Address"
+                      id="email-address"
+                      className="form-control"
+                      name="temail"
+                      required
+                    />
                   </div>
                   <div className="form-group">
                     <label htmlFor="phn">Phone</label>
-                    <input type="number" placeholder="Enter Phone number" id="phn" className="form-control" name="tphn" required={true} />
+                    <input
+                      type="number"
+                      placeholder="Enter Phone number"
+                      id="phn"
+                      className="form-control"
+                      name="tphn"
+                      required
+                    />
                   </div>
                   <div className="form-group">
                     <label htmlFor="cpwd">Password</label>
-                    <input type="password" placeholder="Enter Password" id="cpwd" className="form-control" name="tpassword" max={10} min={10} required={true} />
+                    <input
+                      type="password"
+                      placeholder="Enter Password"
+                      id="cpwd"
+                      className="form-control"
+                      name="tpassword"
+                      minLength={6}
+                      maxLength={15}
+                      required
+                    />
                   </div>
 
                   <div className="form-group">
                     <label htmlFor="tspecialization">Your Specialization</label>
-                    <select className="form-select" aria-label="Default select example" name="tspecialization">
+                    <select className="form-select" name="tspecialization">
                       <option value="Maths">Maths</option>
                       <option value="English">English</option>
                       <option value="Hindi">Hindi</option>
@@ -76,89 +111,83 @@ export default function TeacherRegistration() {
                       <option value="Political">Political Science</option>
                       <option value="Accounts">Accounts</option>
                       <option value="Statistics">Statistics</option>
-                      <option value="chemistry">chemistry</option>
+                      <option value="chemistry">Chemistry</option>
                       <option value="Physics">Physics</option>
                       <option value="Biology">Biology</option>
                       <option value="Computer">Computer</option>
                       <option value="Bengali">Bengali</option>
-
                     </select>
                   </div>
                   <br />
                   <div className="form-group">
-                    <label htmlFor="texp">Your Total Experience(in Years)</label>
-                    <input type="number" placeholder="Enter Your Total Experience" id="texp" className="form-control" name="texp" required={true} />
+                    <label htmlFor="texp">Your Total Experience (in Years)</label>
+                    <input
+                      type="number"
+                      placeholder="Enter Your Total Experience"
+                      id="texp"
+                      className="form-control"
+                      name="texp"
+                      required
+                    />
                   </div>
 
                   <div className="form-group">
                     <label htmlFor="tcity">Your City</label>
-                    <select className="form-select" aria-label="Default select example" name="tcity">
+                    <select className="form-select" name="tcity" required>
                       <option value="">Select City</option>
-                      <option value="Ahmedabad">Ahmedabad</option>
-                      <option value="Amritsar">Amritsar</option>
-                      <option value="Bangalore">Bangalore</option>
-                      <option value="Bhopal">Bhopal</option>
-                      <option value="Bhubaneswar">Bhubaneswar</option>
-                      <option value="Chandigarh">Chandigarh</option>
-                      <option value="Chennai">Chennai</option>
-                      <option value="Coimbatore">Coimbatore</option>
-                      <option value="Dehradun">Dehradun</option>
-                      <option value="Delhi">Delhi</option>
-                      <option value="Ernakulam">Ernakulam</option>
-                      <option value="Faridabad">Faridabad</option>
-                      <option value="Ghaziabad">Ghaziabad</option>
-                      <option value="Goa">Goa</option>
-                      <option value="Gurgaon">Gurgaon</option>
-                      <option value="Guwahati">Guwahati</option>
-                      <option value="Hyderabad">Hyderabad</option>
-                      <option value="Indore">Indore</option>
-                      <option value="Jaipur">Jaipur</option>
-                      <option value="Jammu">Jammu</option>
-                      <option value="Jamshedpur">Jamshedpur</option>
-                      <option value="Kanpur">Kanpur</option>
-                      <option value="Kochi">Kochi</option>
-                      <option value="Kolkata">Kolkata</option>
-                      <option value="Lucknow">Lucknow</option>
-                      <option value="Ludhiana">Ludhiana</option>
-                      <option value="Madurai">Madurai</option>
-                      <option value="Mangalore">Mangalore</option>
-                      <option value="Mumbai">Mumbai</option>
-                      <option value="Mysore">Mysore</option>
-                      <option value="Nagpur">Nagpur</option>
-                      <option value="Nashik">Nashik</option>
-                      <option value="Noida">Noida</option>
-                      <option value="Patna">Patna</option>
-                      <option value="Puducherry">Puducherry</option>
-                      <option value="Pune">Pune</option>
-                      <option value="Raipur">Raipur</option>
-                      <option value="Rajkot">Rajkot</option>
-                      <option value="Ranchi">Ranchi</option>
-                      <option value="Shillong">Shillong</option>
-                      <option value="Shimla">Shimla</option>
-                      <option value="Srinagar">Srinagar</option>
-                      <option value="Surat">Surat</option>
-                      <option value="Thane">Thane</option>
-                      <option value="Thiruvananthapuram">Thiruvananthapuram</option>
-                      <option value="Udaipur">Udaipur</option>
-                      <option value="Vadodara">Vadodara</option>
-                      <option value="Varanasi">Varanasi</option>
-                      <option value="Vijayawada">Vijayawada</option>
-                      <option value="Visakhapatnam">Visakhapatnam</option>
+                      {[
+                        "Ahmedabad", "Amritsar", "Bangalore", "Bhopal", "Bhubaneswar",
+                        "Chandigarh", "Chennai", "Coimbatore", "Dehradun", "Delhi",
+                        "Ernakulam", "Faridabad", "Ghaziabad", "Goa", "Gurgaon", "Guwahati",
+                        "Hyderabad", "Indore", "Jaipur", "Jammu", "Jamshedpur", "Kanpur",
+                        "Kochi", "Kolkata", "Lucknow", "Ludhiana", "Madurai", "Mangalore",
+                        "Mumbai", "Mysore", "Nagpur", "Nashik", "Noida", "Patna",
+                        "Puducherry", "Pune", "Raipur", "Rajkot", "Ranchi", "Shillong",
+                        "Shimla", "Srinagar", "Surat", "Thane", "Thiruvananthapuram",
+                        "Udaipur", "Vadodara", "Varanasi", "Vijayawada", "Visakhapatnam"
+                      ].map(city => (
+                        <option key={city} value={city}>{city}</option>
+                      ))}
                     </select>
                   </div>
                   <br />
+
                   <div className="form-group">
                     <label htmlFor="tprofile">Profile Image</label>
-                    <input type="file" placeholder="Upload Your Profile Picture" id="tprofile" className="form-control" name="tprofile" required={true} />
+                    <input
+                      type="file"
+                      id="tprofile"
+                      className="form-control"
+                      name="tprofile"
+                      accept="image/*"
+                      required
+                      onChange={(e) => {
+                        if (e.target.files && e.target.files[0]) {
+                          setTeacherProfile(e.target.files[0]);
+                        }
+                      }}
+                    />
+                    {teacherProfile && (
+                      <img
+                        src={URL.createObjectURL(teacherProfile)}
+                        alt="Preview"
+                        style={{ maxHeight: "150px", marginTop: "10px", borderRadius: "10px" }}
+                      />
+                    )}
                   </div>
                   <br />
 
                   <div className="form-group">
-                    <label htmlFor="tdesc">Tell Me Something about You </label>
-                    <textarea id="tdesc" className="form-control" name="tdesc" rows={5} required={true} />
+                    <label htmlFor="tdesc">Tell Me Something About You</label>
+                    <textarea
+                      id="tdesc"
+                      className="form-control"
+                      name="tdesc"
+                      rows={5}
+                      required
+                    />
                   </div>
                   <br />
-
 
                   <div className="form-group col-lg-12">
                     <button className="bg_btn bt" type="submit" name="submit">Signup now</button>
@@ -171,5 +200,5 @@ export default function TeacherRegistration() {
         </div>
       </section>
     </>
-  )
+  );
 }

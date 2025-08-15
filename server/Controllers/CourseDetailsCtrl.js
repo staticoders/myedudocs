@@ -1,21 +1,28 @@
 const express = require('express');
-const CourseModel=require('../Models/CourseModel')
+const mongoose = require('mongoose');
+const CourseModel = require('../Models/CourseModel');
 
 const CourseDetailsController = async (req, res) => {
-    try {
-        const courseId = req.params.id; 
-        const Course = await CourseModel.findById(courseId)
-        if (!Course) {
-            return res.status(404).json({ message: 'Course not found' });
-        }
+  try {
+    const { id } = req.params;
 
-        res.status(200).json({ Course });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Server error' });
-        console.log(error);
-        
+    // ✅ Validate ObjectId
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: 'Invalid Course ID' });
     }
-}
+
+    // ✅ Find course
+    const course = await CourseModel.findById(id);
+
+    if (!course) {
+      return res.status(404).json({ message: 'Course not found' });
+    }
+
+    res.status(200).json({ status:true, course:course });
+  } catch (error) {
+    console.error("Error fetching course:", error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
 
 module.exports = CourseDetailsController;

@@ -24,6 +24,7 @@ const TeacherProfile = () => {
     Status?: string;
     tspecialization: String;
     texp: String;
+    updatedAt?: string;
   }
 
 
@@ -45,7 +46,16 @@ const TeacherProfile = () => {
 
   // get Specificuser data from backend 
   const { id } = useParams()
-  const [teacher, setTeacher] = useState<User>({})
+  const [teacher, setTeacher] = useState<User>({
+    name: '',
+    aname: '',
+    tname: '',
+    temail: '',
+    tphn: '',
+    Status: '',
+    tspecialization: '',
+    texp: ''
+  })
 
   useEffect(() => {
     fetch(`${url}/teacherProfile/${id}`) // Update with your backend URL
@@ -104,7 +114,7 @@ const TeacherProfile = () => {
                   <h2 className="display-6 fw-bold text-primary">{teacher.tname}</h2>
                   <p className="text-muted">
                     <i className="bi bi-calendar-check me-2"></i>
-                    Teacher Since: {new Date(teacher.updatedAt).toLocaleDateString()}
+                    Teacher Since: {new Date(teacher.updatedAt ?? '').toLocaleDateString()}
                   </p>
                 </div>
 
@@ -120,7 +130,7 @@ const TeacherProfile = () => {
                         <li><i className="bi bi-telephone-fill me-2 text-success"></i><strong>Contact:</strong> {teacher.tphn}</li>
                         <li><i className="bi bi-award-fill me-2 text-warning"></i><strong>Specialization:</strong> {teacher.tspecialization}</li>
                         <li><i className="bi bi-briefcase-fill me-2 text-dark"></i><strong>Experience:</strong> {teacher.texp} Years</li>
-                        <li><i className="bi bi-building-check me-2 text-muted"></i><strong>MyEduDocs Since:</strong> {new Date(teacher.updatedAt).toLocaleDateString()}</li>
+                        <li><i className="bi bi-building-check me-2 text-muted"></i><strong>MyEduDocs Since:</strong> {new Date(teacher.updatedAt ?? '').toLocaleDateString()}</li>
                         <li><i className="bi bi-shield-check me-2 text-success"></i><strong>Verification Status:</strong> {teacher.Status}</li>
                       </ul>
                     </div>
